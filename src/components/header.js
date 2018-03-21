@@ -1,16 +1,25 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
-import { NavLink, Link } from 'react-router-dom';
-import { Container, Menu } from 'semantic-ui-react';
+import { NavLink } from 'react-router-dom';
+import { Menu } from 'semantic-ui-react';
 
 export default class Header extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return(
-            <Container>
-                <NavLink className="nav-link" to="/">Home</NavLink>
-                <NavLink className="nav-link" to="/campaigns">Social Campaigns</NavLink>
-                <NavLink className="nav-link" to="/charities">Charities</NavLink>
-            </Container>
+            <Menu pointing secondary>
+                <Menu.Item as={NavLink} exact name="home" to="/">
+                    Home
+                </Menu.Item>
+                <Menu.Item as={NavLink} name="campaigns" to="/campaigns" >
+                    Social Campaigns
+                </Menu.Item>
+                <Menu.Item as={NavLink} name="charities"  to="/charities" >
+                    Charities
+                </Menu.Item>
+            </Menu>
         );
     }
 }

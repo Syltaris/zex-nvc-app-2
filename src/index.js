@@ -2,8 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
 
+/* Styles */
+import 'semantic-ui-css/semantic.min.css';
+
+/* Components */
 import NavBar from './components/header';
 
+/* Pages */
 import Home from './pages/home';
 import CampaignsPage from './pages/campaigns';
 import CharitiesPage from './pages/charities';

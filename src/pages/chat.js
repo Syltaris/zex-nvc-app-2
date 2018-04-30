@@ -18,7 +18,8 @@ export default class Home extends React.Component {
         this.state = {
             user: props.user,
             goals : props.goals,
-            chats: props.chats,
+            chats: [],
+            fetchedChats: props.chats,
             input_userChatInput: '',
             buttonPress: false,
             input_goalField: ''
@@ -45,6 +46,26 @@ export default class Home extends React.Component {
             goals: nextProps.goals,
             user: nextProps.user
         })
+    }
+
+    componentDidMount() {
+        const limit = this.state.chats.length;
+
+        setInterval(
+            () => {
+                if(this.state.fetchedChats.length > this.state.chats.length) {
+                    var newArr = this.state.chats;
+                    newArr.push(this.state.fetchedChats[this.state.chats.length]);
+                    this.setState((prevState) => {
+                        return {
+                            chats: newArr
+                        }
+                    })
+                } else {
+                    clearInterval();
+                }
+            }
+        , 2000)
     }
 
     populateLogFeed() {
@@ -186,78 +207,78 @@ export default class Home extends React.Component {
                     </Grid.Row>
                     {
                         this.state.chats && this.state.chats.map(c => 
-                        <Grid.Row textAlign={c.isUser ? "right" : "left"} style={{paddingLeft: 30, paddingRight:30}}> 
-                            <Container textAlign={c.isUser ? "right" : "left"}>
-                                {  
-                                    c.isActionable
-                                    ?
-                                    <Card>
-                                        <Card.Content>
-                                            <Image floated='right' size='mini' src={c.pictureUri} />
+                            <Grid.Row textAlign={c.isUser ? "right" : "left"} style={{paddingLeft: 30, paddingRight:30}}> 
+                                <Container  textAlign={c.isUser ? "right" : "left"}>
+                                    {  
+                                        c.isActionable
+                                        ?
+                                        <Card>
+                                            <Card.Content>
+                                                <Image floated='right' size='mini' src={c.pictureUri} />
 
-                                            <Card.Header>
-                                                {c.message}
-                                            </Card.Header>
-                                            <Card.Meta>
-                                                Financial Expert
-                                            </Card.Meta>
-                                        </Card.Content>
-                                        <Card.Content extra>
-                                            {
-                                                this.state.buttonPress
-                                                ?
-                                                <div>Noted!</div>
-                                                :
-                                                <div className='ui two buttons'>
-                                                    <Button basic icon color="red" onClick={() => {
-                                                        this.setState({buttonPress: true});
-                                                        fetch("http://52.77.251.137:1337/qvlogs", {
-                                                            body: JSON.stringify({
-                                                                date: new Date(),
-                                                                userId: this.state.user.name,
-                                                                interactionType: 'chat_buttonNo'
-                                                            }),
-                                                            method: 'POST',
-                                                            headers: {
-                                                            'Accept': 'application/json',
-                                                            'Content-Type': 'application/json',
-                                                            //'Authorization': `Bearer `+ jwt
-                                                            }
-                                                        })
-                                                    }}>
-                                                        <Icon name="remove" />
-                                                    </Button>
-                                                    <Button basic icon color="green" onClick={() => {
-                                                        this.setState({buttonPress: true});
-                                                        fetch("http://52.77.251.137:1337/qvlogs", {
-                                                            body: JSON.stringify({
-                                                                date: new Date(),
-                                                                userId: this.state.user.name,
-                                                                interactionType: 'chat_buttonYes'
-                                                            }),
-                                                            method: 'POST',
-                                                            headers: {
-                                                            'Accept': 'application/json',
-                                                            'Content-Type': 'application/json',
-                                                            //'Authorization': `Bearer `+ jwt
-                                                            }
-                                                        })
-                                                    }}>
-                                                        <Icon name="checkmark" />
-                                                    </Button>
-                                                </div>
-                                            }
-                                        </Card.Content>
-                                    </Card>
-                                    :
-                                    <div style={{border: '1px solid black', padding: 5, borderRadius: 5}}>
-                                        {c.isUser ? null: <Image avatar spaced="right" src="https://source.unsplash.com/random/21x21" />}
-                                        {c.message}
-                                        {c.isUser ? <Image avatar spaced="left "src="https://source.unsplash.com/random/20x20" /> : null}
-                                    </div>
-                                }
-                            </Container>
-                        </Grid.Row>
+                                                <Card.Header>
+                                                    {c.message}
+                                                </Card.Header>
+                                                <Card.Meta>
+                                                    Financial Expert
+                                                </Card.Meta>
+                                            </Card.Content>
+                                            <Card.Content extra>
+                                                {
+                                                    this.state.buttonPress
+                                                    ?
+                                                    <div>Noted!</div>
+                                                    :
+                                                    <div className='ui two buttons'>
+                                                        <Button basic icon color="red" onClick={() => {
+                                                            this.setState({buttonPress: true});
+                                                            fetch("http://52.77.251.137:1337/qvlogs", {
+                                                                body: JSON.stringify({
+                                                                    date: new Date(),
+                                                                    userId: this.state.user.name,
+                                                                    interactionType: 'chat_buttonNo'
+                                                                }),
+                                                                method: 'POST',
+                                                                headers: {
+                                                                'Accept': 'application/json',
+                                                                'Content-Type': 'application/json',
+                                                                //'Authorization': `Bearer `+ jwt
+                                                                }
+                                                            })
+                                                        }}>
+                                                            <Icon name="remove" />
+                                                        </Button>
+                                                        <Button basic icon color="green" onClick={() => {
+                                                            this.setState({buttonPress: true});
+                                                            fetch("http://52.77.251.137:1337/qvlogs", {
+                                                                body: JSON.stringify({
+                                                                    date: new Date(),
+                                                                    userId: this.state.user.name,
+                                                                    interactionType: 'chat_buttonYes'
+                                                                }),
+                                                                method: 'POST',
+                                                                headers: {
+                                                                'Accept': 'application/json',
+                                                                'Content-Type': 'application/json',
+                                                                //'Authorization': `Bearer `+ jwt
+                                                                }
+                                                            })
+                                                        }}>
+                                                            <Icon name="checkmark" />
+                                                        </Button>
+                                                    </div>
+                                                }
+                                            </Card.Content>
+                                        </Card>
+                                        :
+                                        <div style={{border: '1px solid black', padding: 5, borderRadius: 5}}>
+                                            {c.isUser ? null: <Image avatar spaced="right" src="https://source.unsplash.com/random/21x21" />}
+                                            {c.message}
+                                            {c.isUser ? <Image avatar spaced="left "src="https://source.unsplash.com/random/20x20" /> : null}
+                                        </div>
+                                    }
+                                </Container>
+                            </Grid.Row>
                         )
                     }
                 </Grid>

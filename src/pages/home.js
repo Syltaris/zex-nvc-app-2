@@ -15,37 +15,8 @@ export default class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            goals : [
-                {
-                    goal: "Get house by 30",
-                    logs: [
-                        {
-                            activityDesc: 'Met expert regarding financial report on savings plan.',
-                            date: '03/03/2018'
-                        },
-                        {
-                            activityDesc: 'Started to think about savings plan.',
-                            date: '01/03/2018'
-                        }
-                    ]
-                }
-            ],
-            infos: [
-                {
-                    userAware: false,
-                    title: "Know the forms you need to settle when buying a house?",
-                    imageUri: "https://source.unsplash.com/collection/226405/100x100",
-                    desc: "Buying a house is hard enough, filling up the paperwork that comes with it is even worse. Find out all the paperwork you need to settle when doing so.",
-                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean in lorem condimentum justo placerat faucibus in non nisl. Phasellus dictum vestibulum lacus sed sodales. Curabitur id turpis consectetur, dapibus ante a, pulvinar magna. Aliquam erat volutpat. Vestibulum rutrum neque neque, vel posuere leo laoreet eu. Morbi sit amet sem arcu. Cras dictum ex id cursus commodo. Proin ante nisi, volutpat ac metus in, consequat venenatis neque. Donec suscipit placerat sagittis. Nam viverra dui eros, nec placerat libero suscipit id. Ut ultrices auctor justo eu ullamcorper. In ac fringilla enim.",
-                },
-                {
-                    userAware: false,
-                    title: "Health risks and the coverage you already have.",
-                    imageUri: "https://source.unsplash.com/collection/539469/100x100",
-                    desc: "Do you know what your insurance can really cover you for? Find out more about the details of managing all the insruance for your health.",
-                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean in lorem condimentum justo placerat faucibus in non nisl. Phasellus dictum vestibulum lacus sed sodales. Curabitur id turpis consectetur, dapibus ante a, pulvinar magna. Aliquam erat volutpat. Vestibulum rutrum neque neque, vel posuere leo laoreet eu. Morbi sit amet sem arcu. Cras dictum ex id cursus commodo. Proin ante nisi, volutpat ac metus in, consequat venenatis neque. Donec suscipit placerat sagittis. Nam viverra dui eros, nec placerat libero suscipit id. Ut ultrices auctor justo eu ullamcorper. In ac fringilla enim.",
-                }
-            ]
+            goals : props.goals,
+            infos: props.infos
         }
 
         this.populateLogFeed = this.populateLogFeed.bind(this);
@@ -91,7 +62,7 @@ export default class Home extends React.Component {
                 </Header>
                 <Item.Group divided>
                 {
-                    this.state.infos.map((x,i) => 
+                    this.state.infos && this.state.infos.map((x,i) => 
                         <Item>
                             <Item.Image src={x.imageUri} />
                             <Item.Content>
@@ -169,7 +140,7 @@ export default class Home extends React.Component {
                     </Modal.Actions>
                 </Modal>
                 <Grid.Column width={3} style={{marginLeft: 0,  backgroundColor: 'white',}}>
-                    <Container style={{  height: '100%'}}>
+                    <Container style={{paddingLeft: 10,   height: '100%'}}>
                         {this.populateLogFeed()}
                     </Container>
                 </Grid.Column>

@@ -5,7 +5,9 @@ import {
     Menu,
     Input,
     Image,
-    Label
+    Label,
+    Button,
+    Icon
 } from 'semantic-ui-react';
 
 export default class Header extends React.Component {
@@ -21,17 +23,20 @@ export default class Header extends React.Component {
 
     render() {
         return(
-            <Menu pointing secondary >
+            <Menu  pointing secondary >
                 <Container>
-                    <Menu.Item>
+                    <Menu.Item as={NavLink} exact to="/" >
                         <Image src="logo2.png" height="30" />
                     </Menu.Item>
-                    <Menu.Item  >
+                    <Menu.Item >
                         <Input iconPosition="left" icon="search" />
+                        <Button as={NavLink} exact to="/chat" icon marginBottom={10} marginRight={10}>
+                            <Icon  name="talk"/>
+                        </Button>
                     </Menu.Item>
                     <Menu.Item position="right">
-                            {this.state.user && this.state.user.name}
-                            <Image spaced="left" avatar src={this.state.user && this.state.user.avatarUri} />
+                        {this.state.user && this.state.user.name}
+                        <Image spaced="left" avatar src={this.state.user && this.state.user.avatarUri} />
                     </Menu.Item>
                 </Container>
             </Menu>

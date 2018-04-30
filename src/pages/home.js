@@ -8,7 +8,8 @@ import {
     Icon,
     Item,
     Image,
-    Modal
+    Modal,
+    Input
 } from 'semantic-ui-react';
 
 export default class Home extends React.Component {
@@ -19,11 +20,17 @@ export default class Home extends React.Component {
             goals : props.goals,
             infos: props.infos,
             loggedIn: false,
+            input_goalField: ''
         }
 
         this.populateLogFeed = this.populateLogFeed.bind(this);
         this.populateInfoContainer = this.populateInfoContainer.bind(this);
 
+        this.addGoalsByButton = this.addGoalsByButton.bind(this);
+        this.addGoalsByEnter = this.addGoalsByEnter.bind(this);
+
+        this.updateGoalField = this.updateGoalField.bind(this);
+        
         this.handleClose = this.handleClose.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
     }
@@ -62,6 +69,70 @@ export default class Home extends React.Component {
                         }
                 </Feed>
             )
+    }
+    
+    addGoalsByButton() {
+        this.setState( (prevState) => {
+            var nextState = prevState;
+            var goalToPush = nextState.input_goalField;
+            var newGoals = nextState.goals;
+            newGoals.push({
+                goal: goalToPush,
+                logs: []
+            });
+ 
+
+            fetch("http://52.77.251.137:1337/qvlogs", {
+                body: JSON.stringify({
+                    date: new Date(),
+                    userId: this.state.user.name,
+                    interactionType: 'chat_goalInput_button'
+                }),
+                method: 'POST',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                //'Authorization': `Bearer `+ jwt
+                }
+            });
+
+            return {
+                goals: newGoals,
+                input_goalField: ''
+            };
+        });
+    }
+
+    addGoalsByEnter(e) {
+        if(e.key != 'Enter') {return;}
+        this.setState( (prevState) => {
+            var nextState = prevState;
+            var goalToPush = nextState.input_goalField;
+            var newGoals = nextState.goals;
+            newGoals.push({
+                goal: goalToPush,
+                logs: []
+            });
+
+            fetch("http://52.77.251.137:1337/qvlogs", {
+                body: JSON.stringify({
+                    date: new Date(),
+                    userId: this.state.user.name,
+                    interactionType: 'chat_goalInput_enter'
+                }),
+                method: 'POST',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                //'Authorization': `Bearer `+ jwt
+                }
+            });
+
+            return {
+                goals: newGoals,
+                input_goalField: ''
+            };
+        });
     }
 
     populateInfoContainer() {
@@ -147,6 +218,8 @@ export default class Home extends React.Component {
         )
     }
 
+    updateGoalField(e) {this.setState({input_goalField: e.target.value})}
+
     handleOpen(info) {this.setState({infoToOpen: info, showModal: true})}
     handleClose() {this.setState({showModal: false})}
 
@@ -215,6 +288,14 @@ export default class Home extends React.Component {
                 <Grid.Column width={3} style={{marginLeft: 0,  backgroundColor: 'white',}}>
                     <Container style={{paddingLeft: 10,   height: '100%'}}>
                         {this.populateLogFeed()}
+                        <Input 
+                        action={<Button onClick={this.addGoalsByButton}>+</Button>}
+                        fluid icon="star" 
+                        iconPosition="left" 
+                        onKeyPress={this.addGoalsByEnter}
+                        onChange={this.updateGoalField}
+                        value={this.state.input_goalField}
+                        style={{alignItem: 'bottom'}} />
                     </Container>
                 </Grid.Column>
                 <Grid.Column width={12}>

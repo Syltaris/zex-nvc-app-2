@@ -26,14 +26,21 @@ export default class Home extends React.Component {
         this.handleOpen = this.handleOpen.bind(this);
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            goals: nextProps.goals,
+            infos: nextProps.infos
+        })
+    }
+
     populateLogFeed() {
-        return this.state.goals.map(g =>                     
+        return this.state.goals && this.state.goals.map(g =>                     
                 <Feed>
                     <Header>
                         <Icon name="star"/>{g.goal}
                     </Header>
                     {
-                        g.logs.map((x,i) =>
+                        g.logs && g.logs.map((x,i) =>
                             <Feed.Event key={i}>
                                 <Feed.Label>
                                     <Icon name={i === 0 ? "circle notched" : "circle"}/>
@@ -42,7 +49,7 @@ export default class Home extends React.Component {
                                     <Feed.Summary>
                                         {x.activityDesc}
                                         <Feed.Date>
-                                            {x.date}
+                                            {x.date.slice(0,10)}
                                         </Feed.Date>
                                     </Feed.Summary>
                                     <Feed.Extra>

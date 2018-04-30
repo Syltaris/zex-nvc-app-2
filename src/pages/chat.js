@@ -32,14 +32,21 @@ export default class Home extends React.Component {
         this.handleOpen = this.handleOpen.bind(this);
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            chats: nextProps.chats,
+            goals: nextProps.goals
+        })
+    }
+
     populateLogFeed() {
-        return this.state.goals.map(g =>                     
+        return this.state.goals && this.state.goals.map(g =>                     
                 <Feed>
                     <Header>
                         <Icon name="star"/>{g.goal}
                     </Header>
                     {
-                        g.logs.map((x,i) =>
+                        g.logs && g.logs.map((x,i) =>
                             <Feed.Event key={i}>
                                 <Feed.Label>
                                     <Icon name={i === 0 ? "circle notched" : "circle"}/>
@@ -48,7 +55,7 @@ export default class Home extends React.Component {
                                     <Feed.Summary>
                                         {x.activityDesc}
                                         <Feed.Date>
-                                            {x.date}
+                                            {x.date.slice(0,10)}
                                         </Feed.Date>
                                     </Feed.Summary>
                                     <Feed.Extra>
@@ -118,7 +125,7 @@ export default class Home extends React.Component {
                                         </Card.Content>
                                     </Card>
                                     :
-                                    <div style={{border: '1px solid black', padding: 5}}>
+                                    <div style={{border: '1px solid black', padding: 5, borderRadius: 5}}>
                                         {c.isUser ? null: <Image avatar spaced="right" src="https://source.unsplash.com/random/21x21" />}
                                         {c.message}
                                         {c.isUser ? <Image avatar spaced="left "src="https://source.unsplash.com/random/20x20" /> : null}

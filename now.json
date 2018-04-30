@@ -1,0 +1,11 @@
+{
+    "now": {
+        "name": "GYLT",
+        "alias": "gylt-app",
+        "type": "npm",
+        "engines": {
+        "node": "8.11.1"
+        },
+        "dotenv": ".env.production"
+    }
+}

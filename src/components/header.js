@@ -14,11 +14,12 @@ export default class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: {
-                name: "Bill Ding",
-                avatarUri: "https://source.unsplash.com/random/20x20"
-            }
+            user: props.user
         }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({user: nextProps.user});
     }
 
     render() {

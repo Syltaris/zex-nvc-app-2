@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
-import {Button, Modal} from'semantic-ui-react';
 
 /* Styles */
 import 'semantic-ui-css/semantic.min.css';

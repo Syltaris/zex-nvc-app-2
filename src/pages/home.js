@@ -7,7 +7,6 @@ import {
     Feed,
     Icon,
     Item,
-    Image,
     Modal,
     Input
 } from 'semantic-ui-react';
@@ -104,7 +103,7 @@ export default class Home extends React.Component {
     }
 
     addGoalsByEnter(e) {
-        if(e.key != 'Enter') {return;}
+        if(e.key !== 'Enter') {return;}
         this.setState( (prevState) => {
             var nextState = prevState;
             var goalToPush = nextState.input_goalField;

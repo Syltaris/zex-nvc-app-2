@@ -3,7 +3,6 @@ import {
     Container,
     Grid,
     Form,
-    Label,
     Button,
     Message
 } from 'semantic-ui-react';
@@ -16,15 +15,44 @@ export default class Login extends React.Component {
             user: props.user,
             input_userName: '',
             error: false,
+            logData: undefined,
+            logsDisplay: undefined
         }
 
         this.updateNameInput = this.updateNameInput.bind(this);
+        this.populateLogs = this.populateLogs.bind(this);
+    }
+
+    componentWillMount() {
+        fetch("http://52.77.251.137:1337/qvlogs", {
+            method: 'GET',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            //'Authorization': `Bearer `+ jwt
+            }
+        })
+        .then(resp => resp.json())
+        .then(respData => this.setState({logData: respData}))
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
             user: nextProps.user
         })
+    }
+
+    populateLogs() {
+        var logsDisplay = {};
+        this.state.logData && this.state.logData.forEach(x => 
+            logsDisplay[x.interactionType] = 0
+        )
+
+        Object.keys(logsDisplay).map(x => {
+            return logsDisplay[x] += 1;
+        })
+
+        return Object.keys(logsDisplay).map(x => <div>{x}:{logsDisplay[x]}</div>)
     }
 
     updateNameInput(e) {this.setState({input_userName: e.target.value})}
@@ -62,7 +90,11 @@ export default class Login extends React.Component {
                     }}>
                         Submit
                     </Button>
+                    <Container>
+
                 </Container>
+                </Container>
+
             </Grid>
         )
     }

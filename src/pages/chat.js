@@ -7,7 +7,6 @@ import {
     Feed,
     Card,
     Icon,
-    Item,
     Image,
     Modal,
     Input
@@ -110,7 +109,7 @@ export default class Home extends React.Component {
     }
 
     addGoalsByEnter(e) {
-        if(e.key != 'Enter') {return;}
+        if(e.key !== 'Enter') {return;}
         this.setState( (prevState) => {
             var nextState = prevState;
             var goalToPush = nextState.input_goalField;
@@ -144,7 +143,7 @@ export default class Home extends React.Component {
 
     updateUserChatInput(e) {this.setState({input_userChatInput: e.target.value})}
     submitUserChatInput(e) {
-        if(e.key == "Enter") {
+        if(e.key === "Enter") {
             this.setState( (prevState) => {
                 var nextState = prevState;
                 var messageToPush = nextState.input_userChatInput;

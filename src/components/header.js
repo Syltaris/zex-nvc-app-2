@@ -5,7 +5,6 @@ import {
     Menu,
     Input,
     Image,
-    Label,
     Button,
     Icon
 } from 'semantic-ui-react';

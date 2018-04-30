@@ -21,10 +21,10 @@ export default class Header extends React.Component {
 
     render() {
         return(
-            <Menu pointing secondary>
+            <Menu pointing secondary >
                 <Container>
                     <Menu.Item>
-                        <Image src="logo.png" height="30" />
+                        <Image src="logo2.png" height="30" />
                     </Menu.Item>
                     <Menu.Item  >
                         <Input iconPosition="left" icon="search" />

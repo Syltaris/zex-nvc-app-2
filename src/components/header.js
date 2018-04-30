@@ -35,10 +35,14 @@ export default class Header extends React.Component {
                             <Icon  name="talk"/>
                         </Button>
                     </Menu.Item>
-                    <Menu.Item position="right">
-                        {this.state.user && this.state.user.name}
-                        <Image spaced="left" avatar src={this.state.user && this.state.user.avatarUri} />
-                    </Menu.Item>
+                    {
+                        this.state.user && 
+                        <Menu.Item position="right">
+                            {this.state.user && this.state.user.name}
+                            <Image spaced="left" avatar src={this.state.user && this.state.user.avatarUri} />
+                        </Menu.Item>
+                    }
+
                 </Container>
             </Menu>
         );

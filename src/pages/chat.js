@@ -17,6 +17,7 @@ export default class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            user: props.user,
             goals : props.goals,
             chats: props.chats,
             input_userChatInput: ''
@@ -35,7 +36,8 @@ export default class Home extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             chats: nextProps.chats,
-            goals: nextProps.goals
+            goals: nextProps.goals,
+            user: nextProps.user
         })
     }
 

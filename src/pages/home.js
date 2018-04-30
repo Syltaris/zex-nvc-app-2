@@ -15,8 +15,10 @@ export default class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            user: props.user,
             goals : props.goals,
-            infos: props.infos
+            infos: props.infos,
+            loggedIn: false,
         }
 
         this.populateLogFeed = this.populateLogFeed.bind(this);
@@ -29,7 +31,8 @@ export default class Home extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             goals: nextProps.goals,
-            infos: nextProps.infos
+            infos: nextProps.infos,
+            user: nextProps.user
         })
     }
 
@@ -88,15 +91,28 @@ export default class Home extends React.Component {
                                         Thanks for your feedback!
                                     </Button>
                                     :
-                                    <Button onClick={() => 
+                                    <Button onClick={() => {
                                         this.setState((prevState) => {
                                             var nextState = prevState;
                                             nextState.infos[i].userAware = true;
                                             return {
                                                 infos:  prevState.infos
                                             }
-                                        } )
-                                    }>
+                                        });
+
+                                        fetch("http://52.77.251.137:1337/qvlogs", {
+                                            body: JSON.stringify({
+                                                interactionType: ''
+                                            }),
+                                            method: 'POST',
+                                            headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json',
+                                            //'Authorization': `Bearer `+ jwt
+                                            }
+                                        })
+
+                                    }}>
                                         I already know this
                                     </Button>
                                 }

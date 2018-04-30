@@ -30,7 +30,7 @@ export default class Home extends React.Component {
         this.addGoalsByEnter = this.addGoalsByEnter.bind(this);
 
         this.updateGoalField = this.updateGoalField.bind(this);
-        
+
         this.handleClose = this.handleClose.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
     }
@@ -86,7 +86,7 @@ export default class Home extends React.Component {
                 body: JSON.stringify({
                     date: new Date(),
                     userId: this.state.user.name,
-                    interactionType: 'chat_goalInput_button'
+                    interactionType: 'chat_goalInput_main_button'
                 }),
                 method: 'POST',
                 headers: {
@@ -118,7 +118,7 @@ export default class Home extends React.Component {
                 body: JSON.stringify({
                     date: new Date(),
                     userId: this.state.user.name,
-                    interactionType: 'chat_goalInput_enter'
+                    interactionType: 'chat_goalInput_main_enter'
                 }),
                 method: 'POST',
                 headers: {

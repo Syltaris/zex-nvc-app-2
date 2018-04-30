@@ -49,8 +49,6 @@ export default class Home extends React.Component {
     }
 
     componentDidMount() {
-        const limit = this.state.chats.length;
-
         setInterval(
             () => {
                 if(this.state.fetchedChats.length > this.state.chats.length) {

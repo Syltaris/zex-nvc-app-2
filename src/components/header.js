@@ -1,24 +1,39 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Menu } from 'semantic-ui-react';
+import { 
+    Container,
+    Menu,
+    Input,
+    Image,
+    Label
+} from 'semantic-ui-react';
 
 export default class Header extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            user: {
+                name: "Bill Ding",
+                avatarUri: "https://source.unsplash.com/random/20x20"
+            }
+        }
     }
 
     render() {
         return(
             <Menu pointing secondary>
-                <Menu.Item as={NavLink} exact name="home" to="/">
-                    Home
-                </Menu.Item>
-                <Menu.Item as={NavLink} name="campaigns" to="/campaigns" >
-                    Social Campaigns
-                </Menu.Item>
-                <Menu.Item as={NavLink} name="charities"  to="/charities" >
-                    Charities
-                </Menu.Item>
+                <Container>
+                    <Menu.Item>
+                        GYLT
+                    </Menu.Item>
+                    <Menu.Item >
+                        <Input iconPosition="left" icon="search" />
+                    </Menu.Item>
+                    <Menu.Item position="right">
+                            {this.state.user && this.state.user.name}
+                            <Image spaced="left" avatar src={this.state.user && this.state.user.avatarUri} />
+                    </Menu.Item>
+                </Container>
             </Menu>
         );
     }

@@ -14,7 +14,7 @@ export default class Home extends React.Component {
         return (
             <Grid columns={9}>
                 <Grid.Column width={3}>
-                    <Container>
+                    <Container style={{border: '1px solid black'}}>
                         <Feed>
                             <Feed.Event>
                                 <Feed.Label>
@@ -30,7 +30,7 @@ export default class Home extends React.Component {
                     </Container>
                 </Grid.Column>
                 <Grid.Column width={6}>
-                    <Container fluid>
+                    <Container fluid style={{border: '1px solid black'}}>
                         HOmely
                     </Container>
                 </Grid.Column>

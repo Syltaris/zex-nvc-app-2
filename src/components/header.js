@@ -24,9 +24,9 @@ export default class Header extends React.Component {
             <Menu pointing secondary>
                 <Container>
                     <Menu.Item>
-                        GYLT
+                        <Image src="logo.png" height="30" />
                     </Menu.Item>
-                    <Menu.Item >
+                    <Menu.Item  >
                         <Input iconPosition="left" icon="search" />
                     </Menu.Item>
                     <Menu.Item position="right">

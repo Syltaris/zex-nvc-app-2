@@ -97,9 +97,14 @@ export default class Home extends React.Component {
                                     ?
                                     <Card>
                                         <Card.Content>
+                                            <Image floated='right' size='mini' src={c.pictureUri} />
+
                                             <Card.Header>
                                                 {c.message}
                                             </Card.Header>
+                                            <Card.Meta>
+                                                Financial Expert
+                                            </Card.Meta>
                                         </Card.Content>
                                         <Card.Content extra>
                                             <div className='ui two buttons'>

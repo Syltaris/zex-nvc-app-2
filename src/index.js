@@ -52,7 +52,8 @@ export default class App extends React.Component {
                 {
                     isActionable: true,
                     isUser: false,
-                    message: "Meet Wei Ding?"
+                    message: "Meet Wei Ding?",
+                    pictureUri: "https://source.unsplash.com/collection/1054055/100x100"
                 },
                 {
                     isUser: true,

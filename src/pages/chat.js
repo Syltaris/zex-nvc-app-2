@@ -20,7 +20,8 @@ export default class Home extends React.Component {
             user: props.user,
             goals : props.goals,
             chats: props.chats,
-            input_userChatInput: ''
+            input_userChatInput: '',
+            buttonPress: false,
         };
 
         this.populateLogFeed = this.populateLogFeed.bind(this);
@@ -80,6 +81,21 @@ export default class Home extends React.Component {
                     isUser: true,
                     message: messageToPush
                 });
+
+                fetch("http://52.77.251.137:1337/qvlogs", {
+                    body: JSON.stringify({
+                        date: new Date(),
+                        userId: this.state.user.name,
+                        interactionType: 'chat_inputEntered'
+                    }),
+                    method: 'POST',
+                    headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    //'Authorization': `Bearer `+ jwt
+                    }
+                })
+
                 return {
                     chats: newChats,
                     input_userChatInput: ''
@@ -116,14 +132,50 @@ export default class Home extends React.Component {
                                             </Card.Meta>
                                         </Card.Content>
                                         <Card.Content extra>
-                                            <div className='ui two buttons'>
-                                                <Button basic icon color="red">
-                                                    <Icon name="remove" />
-                                                </Button>
-                                                <Button basic icon color="green">
-                                                    <Icon name="checkmark" />
-                                                </Button>
-                                            </div>
+                                            {
+                                                this.state.buttonPress
+                                                ?
+                                                <div>Noted!</div>
+                                                :
+                                                <div className='ui two buttons'>
+                                                    <Button basic icon color="red" onClick={() => {
+                                                        this.setState({buttonPress: true});
+                                                        fetch("http://52.77.251.137:1337/qvlogs", {
+                                                            body: JSON.stringify({
+                                                                date: new Date(),
+                                                                userId: this.state.user.name,
+                                                                interactionType: 'chat_buttonNo'
+                                                            }),
+                                                            method: 'POST',
+                                                            headers: {
+                                                            'Accept': 'application/json',
+                                                            'Content-Type': 'application/json',
+                                                            //'Authorization': `Bearer `+ jwt
+                                                            }
+                                                        })
+                                                    }}>
+                                                        <Icon name="remove" />
+                                                    </Button>
+                                                    <Button basic icon color="green" onClick={() => {
+                                                        this.setState({buttonPress: true});
+                                                        fetch("http://52.77.251.137:1337/qvlogs", {
+                                                            body: JSON.stringify({
+                                                                date: new Date(),
+                                                                userId: this.state.user.name,
+                                                                interactionType: 'chat_buttonYes'
+                                                            }),
+                                                            method: 'POST',
+                                                            headers: {
+                                                            'Accept': 'application/json',
+                                                            'Content-Type': 'application/json',
+                                                            //'Authorization': `Bearer `+ jwt
+                                                            }
+                                                        })
+                                                    }}>
+                                                        <Icon name="checkmark" />
+                                                    </Button>
+                                                </div>
+                                            }
                                         </Card.Content>
                                     </Card>
                                     :

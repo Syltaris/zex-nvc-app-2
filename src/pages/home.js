@@ -102,7 +102,9 @@ export default class Home extends React.Component {
 
                                         fetch("http://52.77.251.137:1337/qvlogs", {
                                             body: JSON.stringify({
-                                                interactionType: ''
+                                                date: new Date(),
+                                                userId: this.state.user.name,
+                                                interactionType: 'button_alreadyKnow'
                                             }),
                                             method: 'POST',
                                             headers: {
@@ -116,7 +118,23 @@ export default class Home extends React.Component {
                                         I already know this
                                     </Button>
                                 }
-                                <Button primary floated="right" onClick={() => this.handleOpen(x)}>
+                                <Button primary floated="right" onClick={() => {
+                                    this.handleOpen(x);
+                                    
+                                    fetch("http://52.77.251.137:1337/qvlogs", {
+                                        body: JSON.stringify({
+                                            date: new Date(),
+                                            userId: this.state.user.name,
+                                            interactionType: 'button_readMore'
+                                        }),
+                                        method: 'POST',
+                                        headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json',
+                                        //'Authorization': `Bearer `+ jwt
+                                        }
+                                    })
+                                }}>
                                     Read More
                                 </Button>
                                 </Item.Extra>
@@ -152,12 +170,44 @@ export default class Home extends React.Component {
                         Was this useful to you?
                         <Button
                         secondary
-                        onClick={() => this.handleClose()}>
+                        onClick={() => {
+                            this.handleClose();
+                            
+                            fetch("http://52.77.251.137:1337/qvlogs", {
+                                body: JSON.stringify({
+                                    date: new Date(),
+                                    userId: this.state.user.name,
+                                    interactionType: 'button_alreadyKnow_nah'
+                                }),
+                                method: 'POST',
+                                headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                //'Authorization': `Bearer `+ jwt
+                                }
+                            })
+                        }}>
                             Nah
                         </Button>
                         <Button
                         primary
-                        onClick={() => this.handleClose()}>
+                        onClick={() => {
+                            this.handleClose();
+                            
+                            fetch("http://52.77.251.137:1337/qvlogs", {
+                                body: JSON.stringify({
+                                    date: new Date(),
+                                    userId: this.state.user.name,
+                                    interactionType: 'button_alreadyKnow_yes'
+                                }),
+                                method: 'POST',
+                                headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                //'Authorization': `Bearer `+ jwt
+                                }
+                            })
+                        }}>
                             Yes
                         </Button>
                     </Modal.Actions>

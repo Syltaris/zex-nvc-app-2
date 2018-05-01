@@ -49,7 +49,7 @@ export default class Home extends React.Component {
                         <Icon name="star"/>{g.goal}
                     </Header>
                     {
-                        g.logs && g.logs.map((x,i) =>
+                        g.logs && g.logs.sort((a,b) => new Date(a.date) - new Date(b.date)).map((x,i) =>
                             <Feed.Event key={i}>
                                 <Feed.Label>
                                     <Icon name={i === 0 ? "circle notched" : "circle"}/>
@@ -174,7 +174,7 @@ export default class Home extends React.Component {
                                             body: JSON.stringify({
                                                 date: new Date(),
                                                 userId: this.state.user.name,
-                                                interactionType: 'button_alreadyKnow'
+                                                interactionType: 'button_alreadyKnow'+x.title
                                             }),
                                             method: 'POST',
                                             headers: {
@@ -249,7 +249,7 @@ export default class Home extends React.Component {
                                 body: JSON.stringify({
                                     date: new Date(),
                                     userId: this.state.user.name,
-                                    interactionType: 'button_alreadyKnow_nah'
+                                    interactionType: 'button_alreadyKnow_nah_'+x.title
                                 }),
                                 method: 'POST',
                                 headers: {
@@ -270,7 +270,7 @@ export default class Home extends React.Component {
                                 body: JSON.stringify({
                                     date: new Date(),
                                     userId: this.state.user.name,
-                                    interactionType: 'button_alreadyKnow_yes'
+                                    interactionType: 'button_alreadyKnow_yes'+x.title
                                 }),
                                 method: 'POST',
                                 headers: {

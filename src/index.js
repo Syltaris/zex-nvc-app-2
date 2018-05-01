@@ -25,6 +25,7 @@ export default class App extends React.Component {
         }
 
         this.updateUser = this.updateUser.bind(this);
+        this.updateGoals = this.updateGoals.bind(this);
     }
 
     componentWillMount() {
@@ -84,6 +85,10 @@ export default class App extends React.Component {
         this.setState({user: user})
     }
 
+    updateGoals(goals) {
+        this.setState({goals: goals})
+    }
+
     render() {
         return(
             <BrowserRouter>
@@ -92,14 +97,14 @@ export default class App extends React.Component {
                     <React.Fragment>
                         <Route exact path="/" render={() => {
                             if(this.state.user) {
-                                return <Home user={ this.state.user} goals={this.state.goals} infos={this.state.infos}/>;
+                                return <Home user={ this.state.user} updateGoals={this.updateGoals} goals={this.state.goals} infos={this.state.infos}/>;
                             } else {
                                 return <Login updateUser={this.updateUser} user={this.state.user}/>;
                             }
                         }}/>
                         <Route path="/chat" render={() => {
                             if(this.state.user) {
-                                return <ChatPage user={ this.state.user} goals={this.state.goals} chats={this.state.chats}/>
+                                return <ChatPage user={ this.state.user} updateGoals={this.updateGoals} goals={this.state.goals} chats={this.state.chats}/>
                             } else {
                                 return <Login updateUser={this.updateUser} user={this.state.user}/>;
                             }

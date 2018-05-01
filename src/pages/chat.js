@@ -73,7 +73,7 @@ export default class Home extends React.Component {
                         <Icon name="star"/>{g.goal}
                     </Header>
                     {
-                        g.logs && g.logs.map((x,i) =>
+                        g.logs && g.logs.sort((a,b) => new Date(a.date) - new Date(b.date)).map((x,i) =>
                             <Feed.Event key={i}>
                                 <Feed.Label>
                                     <Icon name={i === 0 ? "circle notched" : "circle"}/>
@@ -200,7 +200,7 @@ export default class Home extends React.Component {
                 <Grid style={{marginBottom: 15}}>
                     <Grid.Row style={{paddingLeft: 30}}>
                         <Header>
-                        You're currently connected with 'Chang Wei, Life Expert'.
+                        You're currently connected with 'Chang Wei, Life Expert'. 
                         </Header>
                     </Grid.Row>
                     {
@@ -248,6 +248,18 @@ export default class Home extends React.Component {
                                                         </Button>
                                                         <Button basic icon color="green" onClick={() => {
                                                             this.setState({buttonPress: true});
+
+                                                            this.setState((prevState) => {
+                                                                var newState = prevState;
+                                                                newState.goals[0].logs.push({
+                                                                    date: "2018-05-10T00:00:00",
+                                                                    activityDesc: "Meeting Wei Ding to learn more about making financial plan."
+                                                                })
+                                                                return {
+                                                                    goals: newState.goals
+                                                                }
+                                                            })
+
                                                             fetch("http://52.77.251.137:1337/qvlogs", {
                                                                 body: JSON.stringify({
                                                                     date: new Date(),

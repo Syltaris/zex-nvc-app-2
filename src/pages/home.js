@@ -11,6 +11,9 @@ import {
     Input
 } from 'semantic-ui-react';
 
+/* Helpers */
+import { strapiCall } from '../helpers/helpers';
+
 export default class Home extends React.Component {
     constructor(props) {
         super(props);
@@ -80,20 +83,12 @@ export default class Home extends React.Component {
                 logs: []
             });
  
-
-            fetch("http://52.77.251.137:1337/qvlogs", {
-                body: JSON.stringify({
-                    date: new Date(),
-                    userId: this.state.user.name,
-                    interactionType: 'chat_goalInput_main_button'
-                }),
-                method: 'POST',
-                headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                //'Authorization': `Bearer `+ jwt
-                }
+            var body =  JSON.stringify({
+                date: new Date(),
+                userId: this.state.user.name,
+                interactionType: 'chat_goalInput_main_button'
             });
+            strapiCall('qvlogs', body, 'POST', () => {});
 
             return {
                 goals: newGoals,
@@ -113,19 +108,12 @@ export default class Home extends React.Component {
                 logs: []
             });
 
-            fetch("http://52.77.251.137:1337/qvlogs", {
-                body: JSON.stringify({
-                    date: new Date(),
-                    userId: this.state.user.name,
-                    interactionType: 'chat_goalInput_main_enter'
-                }),
-                method: 'POST',
-                headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                //'Authorization': `Bearer `+ jwt
-                }
+            var body = JSON.stringify({
+                date: new Date(),
+                userId: this.state.user.name,
+                interactionType: 'chat_goalInput_main_enter'
             });
+            strapiCall('qvlogs', body, 'POST', () => {});
 
             return {
                 goals: newGoals,
@@ -170,20 +158,12 @@ export default class Home extends React.Component {
                                             }
                                         });
 
-                                        fetch("http://52.77.251.137:1337/qvlogs", {
-                                            body: JSON.stringify({
-                                                date: new Date(),
-                                                userId: this.state.user.name,
-                                                interactionType: 'button_alreadyKnow'+x.title
-                                            }),
-                                            method: 'POST',
-                                            headers: {
-                                            'Accept': 'application/json',
-                                            'Content-Type': 'application/json',
-                                            //'Authorization': `Bearer `+ jwt
-                                            }
-                                        })
-
+                                        var body = JSON.stringify({
+                                            date: new Date(),
+                                            userId: this.state.user.name,
+                                            interactionType: 'button_alreadyKnow'+x.title
+                                        });
+                                        strapiCall('qvlogs', body, 'POST', () => {});
                                     }}>
                                         I already know this
                                     </Button>
@@ -191,19 +171,12 @@ export default class Home extends React.Component {
                                 <Button primary floated="right" onClick={() => {
                                     this.handleOpen(x);
                                     
-                                    fetch("http://52.77.251.137:1337/qvlogs", {
-                                        body: JSON.stringify({
-                                            date: new Date(),
-                                            userId: this.state.user.name,
-                                            interactionType: 'button_readMore'
-                                        }),
-                                        method: 'POST',
-                                        headers: {
-                                        'Accept': 'application/json',
-                                        'Content-Type': 'application/json',
-                                        //'Authorization': `Bearer `+ jwt
-                                        }
-                                    })
+                                    var body = JSON.stringify({
+                                        date: new Date(),
+                                        userId: this.state.user.name,
+                                        interactionType: 'button_readMore'
+                                    });
+                                    strapiCall('qvlogs', body, 'POST', () => {});
                                 }}>
                                     Read More
                                 </Button>
@@ -245,19 +218,12 @@ export default class Home extends React.Component {
                         onClick={() => {
                             this.handleClose();
                             
-                            fetch("http://52.77.251.137:1337/qvlogs", {
-                                body: JSON.stringify({
-                                    date: new Date(),
-                                    userId: this.state.user.name,
-                                    interactionType: 'button_alreadyKnow_nah_'+x.title
-                                }),
-                                method: 'POST',
-                                headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json',
-                                //'Authorization': `Bearer `+ jwt
-                                }
-                            })
+                            var body = JSON.stringify({
+                                date: new Date(),
+                                userId: this.state.user.name,
+                                interactionType: 'button_alreadyKnow_nah_'+x.title
+                            });
+                            strapiCall('qvlogs', body, 'POST', () => {});
                         }}>
                             Nah
                         </Button>
@@ -265,20 +231,12 @@ export default class Home extends React.Component {
                         primary
                         onClick={() => {
                             this.handleClose();
-                            
-                            fetch("http://52.77.251.137:1337/qvlogs", {
-                                body: JSON.stringify({
-                                    date: new Date(),
-                                    userId: this.state.user.name,
-                                    interactionType: 'button_alreadyKnow_yes'+x.title
-                                }),
-                                method: 'POST',
-                                headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json',
-                                //'Authorization': `Bearer `+ jwt
-                                }
-                            })
+                            var body = JSON.stringify({
+                                date: new Date(),
+                                userId: this.state.user.name,
+                                interactionType: 'button_alreadyKnow_yes'+x.title
+                            });
+                            strapiCall('qvlogs', body, 'POST', () => {});
                         }}>
                             Yes
                         </Button>

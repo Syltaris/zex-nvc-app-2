@@ -12,7 +12,10 @@ import {
     Input
 } from 'semantic-ui-react';
 
-export default class Home extends React.Component {
+/* Helpers */
+import { strapiCall } from '../helpers/helpers';
+
+export default class Chat extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -105,20 +108,12 @@ export default class Home extends React.Component {
                 logs: []
             });
  
-
-            fetch("http://52.77.251.137:1337/qvlogs", {
-                body: JSON.stringify({
-                    date: new Date(),
-                    userId: this.state.user.name,
-                    interactionType: 'chat_goalInput_chat_button'
-                }),
-                method: 'POST',
-                headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                //'Authorization': `Bearer `+ jwt
-                }
+            var body = JSON.stringify({
+                date: new Date(),
+                userId: this.state.user.name,
+                interactionType: 'chat_goalInput_chat_button'
             });
+            strapiCall('qvlogs', body, 'POST', () => {});
 
             return {
                 goals: newGoals,
@@ -138,19 +133,12 @@ export default class Home extends React.Component {
                 logs: []
             });
 
-            fetch("http://52.77.251.137:1337/qvlogs", {
-                body: JSON.stringify({
-                    date: new Date(),
-                    userId: this.state.user.name,
-                    interactionType: 'chat_goalInput_chat_enter'
-                }),
-                method: 'POST',
-                headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                //'Authorization': `Bearer `+ jwt
-                }
+            var body =  JSON.stringify({
+                date: new Date(),
+                userId: this.state.user.name,
+                interactionType: 'chat_goalInput_chat_enter'
             });
+            strapiCall('qvlogs', body, 'POST', () => {});
 
             return {
                 goals: newGoals,
@@ -172,19 +160,12 @@ export default class Home extends React.Component {
                     message: messageToPush
                 });
 
-                fetch("http://52.77.251.137:1337/qvlogs", {
-                    body: JSON.stringify({
-                        date: new Date(),
-                        userId: this.state.user.name,
-                        interactionType: 'chat_inputEntered'
-                    }),
-                    method: 'POST',
-                    headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    //'Authorization': `Bearer `+ jwt
-                    }
-                })
+                var body =  JSON.stringify({
+                    date: new Date(),
+                    userId: this.state.user.name,
+                    interactionType: 'chat_inputEntered'
+                });
+                strapiCall('qvlogs', body, 'POST', () => {});
 
                 return {
                     chats: newChats,
@@ -230,19 +211,12 @@ export default class Home extends React.Component {
                                                     <div className='ui two buttons'>
                                                         <Button basic icon color="red" onClick={() => {
                                                             this.setState({buttonPress: true});
-                                                            fetch("http://52.77.251.137:1337/qvlogs", {
-                                                                body: JSON.stringify({
-                                                                    date: new Date(),
-                                                                    userId: this.state.user.name,
-                                                                    interactionType: 'chat_buttonNo'
-                                                                }),
-                                                                method: 'POST',
-                                                                headers: {
-                                                                'Accept': 'application/json',
-                                                                'Content-Type': 'application/json',
-                                                                //'Authorization': `Bearer `+ jwt
-                                                                }
-                                                            })
+                                                            var body = JSON.stringify({
+                                                                date: new Date(),
+                                                                userId: this.state.user.name,
+                                                                interactionType: 'chat_buttonNo'
+                                                            });
+                                                            strapiCall('qvlogs', body, 'POST', () => {});
                                                         }}>
                                                             <Icon name="remove" />
                                                         </Button>
@@ -260,19 +234,13 @@ export default class Home extends React.Component {
                                                                 }
                                                             })
 
-                                                            fetch("http://52.77.251.137:1337/qvlogs", {
-                                                                body: JSON.stringify({
-                                                                    date: new Date(),
-                                                                    userId: this.state.user.name,
-                                                                    interactionType: 'chat_buttonYes'
-                                                                }),
-                                                                method: 'POST',
-                                                                headers: {
-                                                                'Accept': 'application/json',
-                                                                'Content-Type': 'application/json',
-                                                                //'Authorization': `Bearer `+ jwt
-                                                                }
-                                                            })
+                                                            var body =  JSON.stringify({
+                                                                date: new Date(),
+                                                                userId: this.state.user.name,
+                                                                interactionType: 'chat_buttonYes'
+                                                            });
+                                                            strapiCall('qvlogs', body, 'POST', () => {});
+        
                                                         }}>
                                                             <Icon name="checkmark" />
                                                         </Button>

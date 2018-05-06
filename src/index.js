@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
 
+/* Helpers */
+import { strapiCall } from '../src/helpers/helpers';
+
 /* Styles */
 import 'semantic-ui-css/semantic.min.css';
 
@@ -29,56 +32,9 @@ export default class App extends React.Component {
     }
 
     componentWillMount() {
-        Promise.resolve(localStorage.getItem('accessToken'))
-        .then(jwt =>
-            fetch("http://52.77.251.137:1337/chats", {
-                method: 'GET',
-                headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                //'Authorization': `Bearer `+ jwt
-                }
-            })
-            .then(resp => resp.json())
-            .then(respData => this.setState({chats: respData}))
-            .catch(err => this.setState({chats: [
-              {msg: 'error'},
-            ]}))
-        )
-
-        Promise.resolve(localStorage.getItem('accessToken'))
-        .then(jwt =>
-            fetch("http://52.77.251.137:1337/goals", {
-                method: 'GET',
-                headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                //'Authorization': `Bearer `+ jwt
-                }
-            })
-            .then(resp => resp.json())
-            .then(respData => this.setState({goals: respData}))
-            .catch(err => this.setState({goals: [
-              {msg: 'error'},
-            ]}))
-        )
-
-        Promise.resolve(localStorage.getItem('accessToken'))
-        .then(jwt =>
-            fetch("http://52.77.251.137:1337/infos", {
-                method: 'GET',
-                headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                //'Authorization': `Bearer `+ jwt
-                }
-            })
-            .then(resp => resp.json())
-            .then(respData => this.setState({infos: respData}))
-            .catch(err => this.setState({infos: [
-              {msg: 'error'},
-            ]}))
-        )
+        strapiCall('chats', null, 'GET', (respData) => this.setState({chats: respData}));
+        strapiCall('goals', null, 'GET', (respData) => this.setState({goals: respData}));
+        strapiCall('infos', null, 'GET', (respData) => this.setState({infos: respData}));
     }
     
     updateUser(user) {

@@ -7,6 +7,9 @@ import {
     Message
 } from 'semantic-ui-react';
 
+/* Helpers */
+import { strapiCall } from '../helpers/helpers';
+
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -27,30 +30,12 @@ export default class Login extends React.Component {
 
     componentWillMount() {
         //track visits
-        fetch("http://52.77.251.137:1337/qvlogs", {
-            body: JSON.stringify({
-                date: new Date(),
-                userId: 'visitor',
-                interactionType: 'visitor'
-            }),
-            method: 'POST',
-            headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            //'Authorization': `Bearer `+ jwt
-            }
+        var body = JSON.stringify({
+            date: new Date(),
+            userId: 'visitor',
+            interactionType: 'visitor'
         });
-
-        // fetch("http://52.77.251.137:1337/qvlogs", {
-        //     method: 'GET',
-        //     headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'application/json',
-        //     //'Authorization': `Bearer `+ jwt
-        //     }
-        // })
-        // .then(resp => resp.json())
-        // .then(respData => this.setState({logData: respData}))
+        strapiCall('qvlogs', body, 'POST', () => {})
     }
 
     componentWillReceiveProps(nextProps) {
@@ -109,35 +94,20 @@ export default class Login extends React.Component {
                                 name: this.state.input_userName,
                                 avatarUri: "https://source.unsplash.com/random/20x20"
                             })
-
-                            fetch("http://52.77.251.137:1337/qvlogs", {
-                                body: JSON.stringify({
-                                    date: new Date(),
-                                    userId: this.state.input_userName,
-                                    interactionType: 'sign_in'
-                                }),
-                                method: 'POST',
-                                headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json',
-                                //'Authorization': `Bearer `+ jwt
-                                }
+                            var body = JSON.stringify({
+                                date: new Date(),
+                                userId: this.state.input_userName,
+                                interactionType: 'sign_in'
                             });
+                            strapiCall('qvlogs', body, 'POST', () => {});
 
                             if(this.state.input_email && this.state.input_email !== '') {
-                                fetch("http://52.77.251.137:1337/qvlogs", {
-                                    body: JSON.stringify({
-                                        date: new Date(),
-                                        userId: this.state.input_email,
-                                        interactionType: 'email'
-                                    }),
-                                    method: 'POST',
-                                    headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json',
-                                    //'Authorization': `Bearer `+ jwt
-                                    }
+                                body = JSON.stringify({
+                                    date: new Date(),
+                                    userId: this.state.input_userName,
+                                    interactionType: 'email'
                                 });
+                                strapiCall('qvlogs', body, 'POST', () => {});
                             }
                         }
                     }}>

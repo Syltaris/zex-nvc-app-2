@@ -81,7 +81,7 @@ export default class Profile extends React.Component {
     render() {
         return this.state.goals && this.state.goals.map(g =>     
             <Grid style={{backgroundColor:'#001f3f'}}> 
-                <Container style={{backgroundColor: 'white', height: '100vh'}}>               
+                <Container style={{backgroundColor: 'white', height: '100%', minHeight: '94vh'}}>               
                     <Feed style={{marginTop: 10}}>
                         <Header>
                             <Icon name="star"/>{g.goal}

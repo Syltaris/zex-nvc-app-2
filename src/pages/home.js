@@ -106,8 +106,8 @@ export default class Home extends React.Component {
         var x = this.state.infoToOpen;
 
         return (
-            <Grid style={{backgroundColor:'#001f3f', height: '100vh'}}>
-                <Container >
+            <Grid style={{backgroundColor:'#001f3f', height: '100%', minHeight: '94vh'}}>
+                <Container style={{backgroundColor:'#001f3f', height: '100%'}}>
                     <Modal
                     closeOnDimmerClick={true}
                     closeOnRootNodeClick={true}

@@ -58,56 +58,54 @@ export default class Login extends React.Component {
 
     render() {
         return (
-            <Grid style={{backgroundColor:'#001f3f', height: '100vh'}}>
-                <Container style={{backgroundColor: 'white'}}>
-                    <Form 
-                    error={this.state.error}>
-                        <Form.Field>
-                            <label>Username/Alias</label>
-                            <input onChange={this.updateNameInput}/>
-                        </Form.Field>
-                        <Message
-                        hidden={!this.state.error}
-                        error
-                        header="Name cannot be empty!"
-                        content="Please at least input something for your name! :("/>
-                        <Form.Field>
-                            <label>Email</label>
-                            <input type="email" onChange={this.updateEmailInput}/>
-                        </Form.Field>
-                        For purposes of this demo, we would only require your name! If you want to receive early updates for the product you can also leave your email. :) 
-                    </Form>
-                    <Button onClick={() => {
-                        var error = this.state.input_userName.length <= 0;
+            <Grid style={{backgroundColor:'#001f3f', height: '100%', minHeight: '94vh'}}>
+                <Container style={{backgroundColor: '#001f3f', height: '100%'}}>
+                    <Container style={{backgroundColor: 'white', padding: 10}}>
+                        <Form 
+                        error={this.state.error}>
+                            <Form.Field>
+                                <label>Username/Alias</label>
+                                <input onChange={this.updateNameInput}/>
+                            </Form.Field>
+                            <Message
+                            hidden={!this.state.error}
+                            error
+                            header="Name cannot be empty!"
+                            content="Please at least input something for your name! :("/>
+                            <Form.Field>
+                                <label>Email</label>
+                                <input type="email" onChange={this.updateEmailInput}/>
+                            </Form.Field>
+                            For purposes of this demo, we would only require your name! If you want to receive early updates for the product you can also leave your email. :) 
+                        </Form>
+                        <Button onClick={() => {
+                            var error = this.state.input_userName.length <= 0;
 
-                        this.setState({
-                            error: error,
-                        });
+                            this.setState({
+                                error: error,
+                            });
 
-                        if(!error) {
-                            this.props.updateUser( {
-                                name: this.state.input_userName,
-                                avatarUri: "https://source.unsplash.com/random/20x20"
-                            })
-                            logAction('sign_in', this.state.input_userName)
+                            if(!error) {
+                                this.props.updateUser( {
+                                    name: this.state.input_userName,
+                                    avatarUri: "https://source.unsplash.com/random/20x20"
+                                })
+                                logAction('sign_in', this.state.input_userName)
 
-                            if(this.state.input_email && this.state.input_email !== '') {
-                                var body = JSON.stringify({
-                                    date: new Date(),
-                                    userId: this.state.input_userName,
-                                    interactionType: 'email'
-                                });
-                                strapiCall('qvlogs', body, 'POST', () => {});
+                                if(this.state.input_email && this.state.input_email !== '') {
+                                    var body = JSON.stringify({
+                                        date: new Date(),
+                                        userId: this.state.input_userName,
+                                        interactionType: 'email'
+                                    });
+                                    strapiCall('qvlogs', body, 'POST', () => {});
+                                }
                             }
-                        }
-                    }}>
-                        Submit
-                    </Button>
-                    <Container>
-
+                        }}>
+                            Submit
+                        </Button>
+                    </Container>
                 </Container>
-                </Container>
-
             </Grid>
         )
     }

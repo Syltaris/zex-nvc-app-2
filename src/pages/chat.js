@@ -85,84 +85,8 @@ export default class Chat extends React.Component {
 
     populateChatContainer() {
         return (
-            <Container style={{height: '100vh'}}>
-                <Grid style={{marginBottom: 15}}>
-                    <Grid.Row style={{paddingLeft: 30}}>
-                        <Header>
-                        You're currently connected with 'Chang Wei, Life Expert'. 
-                        </Header>
-                    </Grid.Row>
-                    {
-                        this.state.chats && this.state.chats.map(c => 
-                            <Grid.Row textAlign={c.isUser ? "right" : "left"} style={{paddingLeft: 30, paddingRight:30}}> 
-                                <Container  textAlign={c.isUser ? "right" : "left"}>
-                                    {  
-                                        c.isActionable
-                                        ?
-                                        <Card>
-                                            <Card.Content>
-                                                <Image floated='right' size='mini' src={c.pictureUri} />
+            <Container>
 
-                                                <Card.Header>
-                                                    {c.message}
-                                                </Card.Header>
-                                                <Card.Meta>
-                                                    Financial Expert
-                                                </Card.Meta>
-                                            </Card.Content>
-                                            <Card.Content extra>
-                                                {
-                                                    this.state.buttonPress
-                                                    ?
-                                                    <div>Noted!</div>
-                                                    :
-                                                    <div className='ui two buttons'>
-                                                        <Button basic icon color="red" onClick={() => {
-                                                            this.setState({buttonPress: true});
-                                                            logAction('chat_buttonNo', this.state.user.name);
-                                                        }}>
-                                                            <Icon name="remove" />
-                                                        </Button>
-                                                        <Button basic icon color="green" onClick={() => {
-                                                            this.setState({buttonPress: true});
-
-                                                            this.setState((prevState) => {
-                                                                var newState = prevState;
-                                                                newState.goals[0].logs.push({
-                                                                    date: "2018-05-10T00:00:00",
-                                                                    activityDesc: "Meeting Wei Ding to learn more about making financial plan."
-                                                                })
-                                                                return {
-                                                                    goals: newState.goals
-                                                                }
-                                                            })
-                                                            logAction('chat_buttonYes', this.state.user.name);
-                                                        }}>
-                                                            <Icon name="checkmark" />
-                                                        </Button>
-                                                    </div>
-                                                }
-                                            </Card.Content>
-                                        </Card>
-                                        :
-                                        <div style={{border: '1px solid black', padding: 5, borderRadius: 5}}>
-                                            {c.isUser ? null: <Image avatar spaced="right" src="https://source.unsplash.com/random/21x21" />}
-                                            {c.message}
-                                            {c.isUser ? <Image avatar spaced="left "src="https://source.unsplash.com/random/20x20" /> : null}
-                                        </div>
-                                    }
-                                </Container>
-                            </Grid.Row>
-                        )
-                    }
-                </Grid>
-                <Container style={{height: '100vh', marginBottom: 0}}>
-                    <Input fluid style={{marginLeft: 10}} 
-                    icon="angle left" 
-                    onChange={this.updateUserChatInput} 
-                    onKeyPress={this.submitUserChatInput}
-                    value={this.state.input_userChatInput}/>
-                </Container>
             </Container>
         )
     }
@@ -174,11 +98,90 @@ export default class Chat extends React.Component {
 
     render() {
         return (
-            <Container fluid style={{backgroundColor:'#001f3f', height: '100vh'}}>
-                <Container style={{backgroundColor: 'white', paddingRight: 10, paddingBottom: 10, height: '100vh'}}>
-                    {this.populateChatContainer()}
+            <Grid style={{backgroundColor:'#001f3f', height:'100%', minHeight: '94vh'}}>
+                <Container style={{backgroundColor: 'white', paddingRight: 10, paddingBottom: 10, height: '100%'}}>
+                    <Grid style={{marginBottom: 15}}>
+                        <Grid.Row style={{paddingLeft: 30}}>
+                            <Header>
+                            You're currently connected with 'Chang Wei, Life Expert'. 
+                            </Header>
+                        </Grid.Row>
+                        {
+                            this.state.chats && this.state.chats.map(c => 
+                                <Grid.Row 
+                                textAlign={c.isUser ? "right" : "left"} 
+                                style={{paddingLeft: 30, paddingRight:30}}> 
+                                    <Container  textAlign={c.isUser ? "right" : "left"}>
+                                        {  
+                                            c.isActionable
+                                            ?
+                                            <Card>
+                                                <Card.Content>
+                                                    <Image floated='right' size='mini' src={c.pictureUri} />
+                                                    <Card.Header>
+                                                        {c.message}
+                                                    </Card.Header>
+                                                    <Card.Meta>
+                                                        Financial Expert
+                                                    </Card.Meta>
+                                                </Card.Content>
+                                                <Card.Content extra>
+                                                    {
+                                                        this.state.buttonPress
+                                                        ?
+                                                        <div>Noted!</div>
+                                                        :
+                                                        <div className='ui two buttons'>
+                                                            <Button basic icon color="red" onClick={() => {
+                                                                this.setState({buttonPress: true});
+                                                                logAction('chat_buttonNo', this.state.user.name);
+                                                            }}>
+                                                                <Icon name="remove" />
+                                                            </Button>
+                                                            <Button basic icon color="green" onClick={() => {
+                                                                this.setState({buttonPress: true});
+
+                                                                this.setState((prevState) => {
+                                                                    var newState = prevState;
+                                                                    newState.goals[0].logs.push({
+                                                                        date: "2018-05-10T00:00:00",
+                                                                        activityDesc: "Meeting Wei Ding to learn more about making financial plan."
+                                                                    })
+                                                                    return {
+                                                                        goals: newState.goals
+                                                                    }
+                                                                })
+                                                                logAction('chat_buttonYes', this.state.user.name);
+                                                            }}>
+                                                                <Icon name="checkmark" />
+                                                            </Button>
+                                                        </div>
+                                                    }
+                                                </Card.Content>
+                                            </Card>
+                                            :
+                                            <Container fluid  >
+                                                <Container style={{border: '1px solid black', padding: 5, borderRadius: 5}}>
+                                                    {c.isUser ? null: <Image avatar spaced="right" src="https://source.unsplash.com/random/21x21" />}
+                                                    {c.message}
+                                                    {c.isUser ? <Image avatar spaced="left "src="https://source.unsplash.com/random/20x20" /> : null}
+                                                </Container>
+                                            </Container>
+                                        }
+                                    </Container>
+                                </Grid.Row>
+                            )
+                        }
+                    </Grid>
+                    <Container style={{ marginBottom: 0}}>
+                        <Input fluid style={{marginLeft: 10, alignItem: 'bottom'}} 
+                        icon="angle left" 
+                        onChange={this.updateUserChatInput} 
+                        onKeyPress={this.submitUserChatInput}
+                        value={this.state.input_userChatInput}/>
+                    </Container>                
                 </Container>
-            </Container>
+            </Grid>
 
         )
     }

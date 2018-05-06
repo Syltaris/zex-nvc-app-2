@@ -25,13 +25,12 @@ export default class Header extends React.Component {
 
     render() {
         return(
-            <Menu secondary>
+            <Menu secondary style={{height: '6vh'}}>
                 <Container>
                     <Menu.Item as={NavLink} exact to="/">
                         <Image src="logo2.png" height="30" />
                     </Menu.Item>
                     <Menu.Item>
-                    <Input iconPosition="left" icon="search" />
                     </Menu.Item>
                     <Menu.Item as={NavLink} exact to="/chat">
                         <Icon name="talk"/>

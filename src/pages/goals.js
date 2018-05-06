@@ -4,7 +4,9 @@ import {
     Feed,
     Icon,
     Container,
-    Grid
+    Grid,
+    Input,
+    Button
 } from 'semantic-ui-react';
 
 /* Helpers */
@@ -19,6 +21,8 @@ export default class Goals extends React.Component {
             loggedIn: false,
             input_goalField: ''
         }
+
+        this.populateGoals = this.populateGoals.bind(this);
 
         this.addGoalsByButton = this.addGoalsByButton.bind(this);
         this.addGoalsByEnter = this.addGoalsByEnter.bind(this);
@@ -78,35 +82,54 @@ export default class Goals extends React.Component {
 
     updateGoalField(e) {this.setState({input_goalField: e.target.value})}
 
-    render() {
+    populateGoals() {
         return this.state.goals && this.state.goals.map(g =>     
-            <Grid style={{backgroundColor:'#001f3f'}}> 
-                <Container style={{backgroundColor: 'white', height: '100vh'}}>               
-                    <Feed style={{marginTop: 10}}>
-                        <Header>
-                            <Icon name="star"/>{g.goal}
-                        </Header>
-                        {
-                            g.logs && g.logs.sort((a,b) => new Date(a.date) - new Date(b.date)).map((x,i) =>
-                                <Feed.Event key={i}>
-                                    <Feed.Label>
-                                        <Icon name={i === 0 ? "circle notched" : "circle"}/>
-                                    </Feed.Label>
-                                    <Feed.Content>
-                                        <Feed.Summary>
-                                            {x.activityDesc}
-                                            <Feed.Date>
-                                                {x.date.slice(0,10)}
-                                            </Feed.Date>
-                                        </Feed.Summary>
-                                        <Feed.Extra>
-                                        </Feed.Extra>
-                                    </Feed.Content>
-                                </Feed.Event>)
-                            }
-                    </Feed>
+            <Container fluid style={{backgroundColor: 'white', height: '100%'}}>               
+                <Feed style={{marginTop: 10}}>
+                    <Header>
+                        <Icon name="star"/>{g.goal}
+                    </Header>
+                    {
+                        g.logs && g.logs.sort((a,b) => new Date(a.date) - new Date(b.date)).map((x,i) =>
+                            <Feed.Event key={i}>
+                                <Feed.Label>
+                                    <Icon name={i === 0 ? "circle notched" : "circle"}/>
+                                </Feed.Label>
+                                <Feed.Content>
+                                    <Feed.Summary>
+                                        {x.activityDesc}
+                                        <Feed.Date>
+                                            {x.date.slice(0,10)}
+                                        </Feed.Date>
+                                    </Feed.Summary>
+                                    <Feed.Extra>
+                                    </Feed.Extra>
+                                </Feed.Content>
+                            </Feed.Event>)
+                        }
+                </Feed>
+            </Container>
+        );
+    }
+
+    render() {
+        return (
+        <Grid style={{backgroundColor:'#001f3f', height:'100%', minHeight: '94vh'}}>
+            <Container style={{backgroundColor: 'white', paddingRight: 10, paddingBottom: 10, height: '100%'}}>
+                {this.populateGoals()}
+                <Container style={{marginBottom: 10}}>
+                    <Input  
+                    action={<Button onClick={this.addGoalsByButton}>+</Button>} 
+                    fluid icon="star"  
+                    iconPosition="left"  
+                    onKeyPress={this.addGoalsByEnter} 
+                    onChange={this.updateGoalField} 
+                    value={this.state.input_goalField} 
+                    style={{alignItem: 'bottom'}} /> 
                 </Container>
-            </Grid>
+
+            </Container>
+        </Grid>
         )
     }
 }

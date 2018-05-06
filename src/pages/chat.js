@@ -129,7 +129,7 @@ export default class Chat extends React.Component {
                                                     {
                                                         this.state.buttonPress
                                                         ?
-                                                        <div>Noted!</div>
+                                                        this.state.logAdded && this.state.logAdded ? <div>Added to your goals!</div> : <div>Noted!</div>
                                                         :
                                                         <div className='ui two buttons'>
                                                             <Button basic icon color="red" onClick={() => {
@@ -139,7 +139,7 @@ export default class Chat extends React.Component {
                                                                 <Icon name="remove" />
                                                             </Button>
                                                             <Button basic icon color="green" onClick={() => {
-                                                                this.setState({buttonPress: true});
+                                                                this.setState({buttonPress: true, logAdded: true});
 
                                                                 this.setState((prevState) => {
                                                                     var newState = prevState;

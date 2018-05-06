@@ -31,7 +31,7 @@ export default class Header extends React.Component {
                     <Menu.Item >
                         <Input iconPosition="left" icon="search" />
                         <NavLink exact to="/chat">
-                            <Button  icon marginBottom={10} marginRight={10}>
+                            <Button  icon>
                                 <Icon  name="talk"/>
                             </Button>
                         </NavLink>

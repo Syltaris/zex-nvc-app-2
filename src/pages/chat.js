@@ -4,16 +4,16 @@ import {
     Button,
     Header,
     Grid,
-    Feed,
     Card,
     Icon,
     Image,
-    Modal,
     Input
 } from 'semantic-ui-react';
 
 /* Helpers */
-import { strapiCall } from '../helpers/helpers';
+import { logAction } from '../helpers/helpers';
+
+import Goals from '../pages/goals';
 
 export default class Chat extends React.Component {
     constructor(props) {
@@ -25,19 +25,12 @@ export default class Chat extends React.Component {
             fetchedChats: props.chats,
             input_userChatInput: '',
             buttonPress: false,
-            input_goalField: ''
         };
 
-        this.populateLogFeed = this.populateLogFeed.bind(this);
         this.populateChatContainer = this.populateChatContainer.bind(this);
 
         this.updateUserChatInput = this.updateUserChatInput.bind(this);
         this.submitUserChatInput = this.submitUserChatInput.bind(this);
-
-        this.addGoalsByButton = this.addGoalsByButton.bind(this);
-        this.addGoalsByEnter = this.addGoalsByEnter.bind(this);
-
-        this.updateGoalField = this.updateGoalField.bind(this);
 
         this.handleClose = this.handleClose.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
@@ -69,85 +62,6 @@ export default class Chat extends React.Component {
         , 2000)
     }
 
-    populateLogFeed() {
-        return this.state.goals && this.state.goals.map(g =>                     
-                <Feed>
-                    <Header>
-                        <Icon name="star"/>{g.goal}
-                    </Header>
-                    {
-                        g.logs && g.logs.sort((a,b) => new Date(a.date) - new Date(b.date)).map((x,i) =>
-                            <Feed.Event key={i}>
-                                <Feed.Label>
-                                    <Icon name={i === 0 ? "circle notched" : "circle"}/>
-                                </Feed.Label>
-                                <Feed.Content>
-                                    <Feed.Summary>
-                                        {x.activityDesc}
-                                        <Feed.Date>
-                                            {x.date.slice(0,10)}
-                                        </Feed.Date>
-                                    </Feed.Summary>
-                                    <Feed.Extra>
-                                    </Feed.Extra>
-                                </Feed.Content>
-                            </Feed.Event>)
-                        }
-                </Feed>
-            )
-    }
-
-        
-    addGoalsByButton() {
-        this.setState( (prevState) => {
-            var nextState = prevState;
-            var goalToPush = nextState.input_goalField;
-            var newGoals = nextState.goals;
-            newGoals.push({
-                goal: goalToPush,
-                logs: []
-            });
- 
-            var body = JSON.stringify({
-                date: new Date(),
-                userId: this.state.user.name,
-                interactionType: 'chat_goalInput_chat_button'
-            });
-            strapiCall('qvlogs', body, 'POST', () => {});
-
-            return {
-                goals: newGoals,
-                input_goalField: ''
-            };
-        });
-    }
-
-    addGoalsByEnter(e) {
-        if(e.key !== 'Enter') {return;}
-        this.setState( (prevState) => {
-            var nextState = prevState;
-            var goalToPush = nextState.input_goalField;
-            var newGoals = nextState.goals;
-            newGoals.push({
-                goal: goalToPush,
-                logs: []
-            });
-
-            var body =  JSON.stringify({
-                date: new Date(),
-                userId: this.state.user.name,
-                interactionType: 'chat_goalInput_chat_enter'
-            });
-            strapiCall('qvlogs', body, 'POST', () => {});
-
-            return {
-                goals: newGoals,
-                input_goalField: ''
-            };
-        });
-    }
-
-
     updateUserChatInput(e) {this.setState({input_userChatInput: e.target.value})}
     submitUserChatInput(e) {
         if(e.key === "Enter") {
@@ -159,13 +73,7 @@ export default class Chat extends React.Component {
                     isUser: true,
                     message: messageToPush
                 });
-
-                var body =  JSON.stringify({
-                    date: new Date(),
-                    userId: this.state.user.name,
-                    interactionType: 'chat_inputEntered'
-                });
-                strapiCall('qvlogs', body, 'POST', () => {});
+                logAction('chat_inputEntered', this.state.user.name);
 
                 return {
                     chats: newChats,
@@ -211,12 +119,7 @@ export default class Chat extends React.Component {
                                                     <div className='ui two buttons'>
                                                         <Button basic icon color="red" onClick={() => {
                                                             this.setState({buttonPress: true});
-                                                            var body = JSON.stringify({
-                                                                date: new Date(),
-                                                                userId: this.state.user.name,
-                                                                interactionType: 'chat_buttonNo'
-                                                            });
-                                                            strapiCall('qvlogs', body, 'POST', () => {});
+                                                            logAction('chat_buttonNo', this.state.user.name);
                                                         }}>
                                                             <Icon name="remove" />
                                                         </Button>
@@ -233,14 +136,7 @@ export default class Chat extends React.Component {
                                                                     goals: newState.goals
                                                                 }
                                                             })
-
-                                                            var body =  JSON.stringify({
-                                                                date: new Date(),
-                                                                userId: this.state.user.name,
-                                                                interactionType: 'chat_buttonYes'
-                                                            });
-                                                            strapiCall('qvlogs', body, 'POST', () => {});
-        
+                                                            logAction('chat_buttonYes', this.state.user.name);
                                                         }}>
                                                             <Icon name="checkmark" />
                                                         </Button>
@@ -275,46 +171,11 @@ export default class Chat extends React.Component {
     handleClose() {this.setState({showModal: false})}
 
     render() {
-        var x = this.state.infoToOpen;
-
         return (
             <Grid style={{backgroundColor:'#001f3f', height: '100vh'}}>
-                <Modal
-                closeOnDimmerClick={true}
-                closeOnRootNodeClick={true}
-                closeOnEscape
-                open={this.state.showModal}
-                onClose={this.handleClose}
-                style={{marginTop: '50px', marginLeft: '20%'}}>
-                    <Header>{x && x.title}</Header>
-                    <Modal.Content>
-                        {x && x.content}
-                    </Modal.Content>
-                    <Modal.Actions>
-                        Was this useful to you?
-                        <Button
-                        secondary
-                        onClick={() => this.handleClose()}>
-                            Nah
-                        </Button>
-                        <Button
-                        primary
-                        onClick={() => this.handleClose()}>
-                            Yes
-                        </Button>
-                    </Modal.Actions>
-                </Modal>
                 <Grid.Column width={3} style={{marginLeft: 0,  backgroundColor: 'white',}}>
                     <Container style={{paddingLeft: 10,  height: '100%'}}>
-                        {this.populateLogFeed()}
-                        <Input 
-                        action={<Button onClick={this.addGoalsByButton}>+</Button>}
-                        fluid icon="star" 
-                        iconPosition="left" 
-                        onKeyPress={this.addGoalsByEnter}
-                        onChange={this.updateGoalField}
-                        value={this.state.input_goalField}
-                        style={{alignItem: 'bottom'}} />
+                        <Goals user={this.state.user} goals={this.state.goals} />
                     </Container>
                 </Grid.Column>
                 <Grid.Column width={12}>

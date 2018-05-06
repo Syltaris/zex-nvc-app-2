@@ -17,3 +17,12 @@ export function strapiCall(route, body, restMethod, successCallback) {
         .catch(err => console.log(err))
     )
 }
+
+export function logAction(actionName, userId) {
+    var body = JSON.stringify({
+        date: new Date(),
+        userId: userId,
+        interactionType: actionName
+    });
+    strapiCall('qvlogs', body, 'POST', () => {});
+}

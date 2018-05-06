@@ -4,15 +4,15 @@ import {
     Button,
     Header,
     Grid,
-    Feed,
     Icon,
     Item,
     Modal,
-    Input
 } from 'semantic-ui-react';
 
 /* Helpers */
-import { strapiCall } from '../helpers/helpers';
+import { logAction } from '../helpers/helpers';
+
+import Goals from '../pages/goals';
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -25,11 +25,7 @@ export default class Home extends React.Component {
             input_goalField: ''
         }
 
-        this.populateLogFeed = this.populateLogFeed.bind(this);
         this.populateInfoContainer = this.populateInfoContainer.bind(this);
-
-        this.addGoalsByButton = this.addGoalsByButton.bind(this);
-        this.addGoalsByEnter = this.addGoalsByEnter.bind(this);
 
         this.updateGoalField = this.updateGoalField.bind(this);
 
@@ -43,83 +39,6 @@ export default class Home extends React.Component {
             infos: nextProps.infos,
             user: nextProps.user
         })
-    }
-
-    populateLogFeed() {
-        return this.state.goals && this.state.goals.map(g =>                     
-                <Feed>
-                    <Header>
-                        <Icon name="star"/>{g.goal}
-                    </Header>
-                    {
-                        g.logs && g.logs.sort((a,b) => new Date(a.date) - new Date(b.date)).map((x,i) =>
-                            <Feed.Event key={i}>
-                                <Feed.Label>
-                                    <Icon name={i === 0 ? "circle notched" : "circle"}/>
-                                </Feed.Label>
-                                <Feed.Content>
-                                    <Feed.Summary>
-                                        {x.activityDesc}
-                                        <Feed.Date>
-                                            {x.date.slice(0,10)}
-                                        </Feed.Date>
-                                    </Feed.Summary>
-                                    <Feed.Extra>
-                                    </Feed.Extra>
-                                </Feed.Content>
-                            </Feed.Event>)
-                        }
-                </Feed>
-            )
-    }
-    
-    addGoalsByButton() {
-        this.setState( (prevState) => {
-            var nextState = prevState;
-            var goalToPush = nextState.input_goalField;
-            var newGoals = nextState.goals;
-            newGoals.push({
-                goal: goalToPush,
-                logs: []
-            });
- 
-            var body =  JSON.stringify({
-                date: new Date(),
-                userId: this.state.user.name,
-                interactionType: 'chat_goalInput_main_button'
-            });
-            strapiCall('qvlogs', body, 'POST', () => {});
-
-            return {
-                goals: newGoals,
-                input_goalField: ''
-            };
-        });
-    }
-
-    addGoalsByEnter(e) {
-        if(e.key !== 'Enter') {return;}
-        this.setState( (prevState) => {
-            var nextState = prevState;
-            var goalToPush = nextState.input_goalField;
-            var newGoals = nextState.goals;
-            newGoals.push({
-                goal: goalToPush,
-                logs: []
-            });
-
-            var body = JSON.stringify({
-                date: new Date(),
-                userId: this.state.user.name,
-                interactionType: 'chat_goalInput_main_enter'
-            });
-            strapiCall('qvlogs', body, 'POST', () => {});
-
-            return {
-                goals: newGoals,
-                input_goalField: ''
-            };
-        });
     }
 
     populateInfoContainer() {
@@ -157,26 +76,14 @@ export default class Home extends React.Component {
                                                 infos:  prevState.infos
                                             }
                                         });
-
-                                        var body = JSON.stringify({
-                                            date: new Date(),
-                                            userId: this.state.user.name,
-                                            interactionType: 'button_alreadyKnow'+x.title
-                                        });
-                                        strapiCall('qvlogs', body, 'POST', () => {});
+                                        logAction('button_alreadyKnow'+x.title, this.state.user.name);
                                     }}>
                                         I already know this
                                     </Button>
                                 }
                                 <Button primary floated="right" onClick={() => {
                                     this.handleOpen(x);
-                                    
-                                    var body = JSON.stringify({
-                                        date: new Date(),
-                                        userId: this.state.user.name,
-                                        interactionType: 'button_readMore'
-                                    });
-                                    strapiCall('qvlogs', body, 'POST', () => {});
+                                    logAction('button_readMore', this.state.user.name);
                                 }}>
                                     Read More
                                 </Button>
@@ -217,13 +124,7 @@ export default class Home extends React.Component {
                         secondary
                         onClick={() => {
                             this.handleClose();
-                            
-                            var body = JSON.stringify({
-                                date: new Date(),
-                                userId: this.state.user.name,
-                                interactionType: 'button_alreadyKnow_nah_'+x.title
-                            });
-                            strapiCall('qvlogs', body, 'POST', () => {});
+                            logAction('button_alreadyKnow_nah_'+x.title, this.state.user.name);
                         }}>
                             Nah
                         </Button>
@@ -231,12 +132,7 @@ export default class Home extends React.Component {
                         primary
                         onClick={() => {
                             this.handleClose();
-                            var body = JSON.stringify({
-                                date: new Date(),
-                                userId: this.state.user.name,
-                                interactionType: 'button_alreadyKnow_yes'+x.title
-                            });
-                            strapiCall('qvlogs', body, 'POST', () => {});
+                            logAction('button_alreadyKnow_yes_'+x.title, this.state.user.name);
                         }}>
                             Yes
                         </Button>
@@ -244,15 +140,7 @@ export default class Home extends React.Component {
                 </Modal>
                 <Grid.Column width={3} style={{marginLeft: 0,  backgroundColor: 'white',}}>
                     <Container style={{paddingLeft: 10,   height: '100%'}}>
-                        {this.populateLogFeed()}
-                        <Input 
-                        action={<Button onClick={this.addGoalsByButton}>+</Button>}
-                        fluid icon="star" 
-                        iconPosition="left" 
-                        onKeyPress={this.addGoalsByEnter}
-                        onChange={this.updateGoalField}
-                        value={this.state.input_goalField}
-                        style={{alignItem: 'bottom'}} />
+                        <Goals user={this.state.user} goals={this.state.goals} />
                     </Container>
                 </Grid.Column>
                 <Grid.Column width={12}>

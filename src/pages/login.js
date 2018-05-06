@@ -8,7 +8,7 @@ import {
 } from 'semantic-ui-react';
 
 /* Helpers */
-import { strapiCall } from '../helpers/helpers';
+import { strapiCall, logAction } from '../helpers/helpers';
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -30,12 +30,7 @@ export default class Login extends React.Component {
 
     componentWillMount() {
         //track visits
-        var body = JSON.stringify({
-            date: new Date(),
-            userId: 'visitor',
-            interactionType: 'visitor'
-        });
-        strapiCall('qvlogs', body, 'POST', () => {})
+        logAction('visitor');
     }
 
     componentWillReceiveProps(nextProps) {
@@ -94,15 +89,10 @@ export default class Login extends React.Component {
                                 name: this.state.input_userName,
                                 avatarUri: "https://source.unsplash.com/random/20x20"
                             })
-                            var body = JSON.stringify({
-                                date: new Date(),
-                                userId: this.state.input_userName,
-                                interactionType: 'sign_in'
-                            });
-                            strapiCall('qvlogs', body, 'POST', () => {});
+                            logAction('sign_in', this.state.user.name)
 
                             if(this.state.input_email && this.state.input_email !== '') {
-                                body = JSON.stringify({
+                                var body = JSON.stringify({
                                     date: new Date(),
                                     userId: this.state.input_userName,
                                     interactionType: 'email'

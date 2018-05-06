@@ -15,6 +15,8 @@ import NavBar from './components/header';
 import Login from './pages/login';
 import Home from './pages/home';
 import ChatPage from './pages/chat';
+import GoalsPage from './pages/goals';
+import ProfilePage from './pages/profile';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -50,7 +52,7 @@ export default class App extends React.Component {
             <BrowserRouter>
                 <React.Fragment>
                     <NavBar user={this.state.user}/>
-                    <React.Fragment>
+                    <React.Fragment >
                         <Route exact path="/" render={() => {
                             if(this.state.user) {
                                 return <Home user={ this.state.user} updateGoals={this.updateGoals} goals={this.state.goals} infos={this.state.infos}/>;
@@ -61,6 +63,20 @@ export default class App extends React.Component {
                         <Route path="/chat" render={() => {
                             if(this.state.user) {
                                 return <ChatPage user={ this.state.user} updateGoals={this.updateGoals} goals={this.state.goals} chats={this.state.chats}/>
+                            } else {
+                                return <Login updateUser={this.updateUser} user={this.state.user}/>;
+                            }
+                        }}/>
+                        <Route path="/goals" render={() => {
+                            if(this.state.user) {
+                                return <GoalsPage user={ this.state.user} updateGoals={this.updateGoals} goals={this.state.goals} chats={this.state.chats}/>
+                            } else {
+                                return <Login updateUser={this.updateUser} user={this.state.user}/>;
+                            }
+                        }}/>
+                        <Route path="/profile" render={() => {
+                            if(this.state.user) {
+                                return <ProfilePage user={ this.state.user} updateGoals={this.updateGoals} goals={this.state.goals} chats={this.state.chats}/>
                             } else {
                                 return <Login updateUser={this.updateUser} user={this.state.user}/>;
                             }

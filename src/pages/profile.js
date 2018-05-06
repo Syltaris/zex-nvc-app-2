@@ -10,7 +10,7 @@ import {
 /* Helpers */
 import { strapiCall, logAction } from '../helpers/helpers';
 
-export default class Goals extends React.Component {
+export default class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

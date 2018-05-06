@@ -89,7 +89,7 @@ export default class Login extends React.Component {
                                 name: this.state.input_userName,
                                 avatarUri: "https://source.unsplash.com/random/20x20"
                             })
-                            logAction('sign_in', this.state.user.name)
+                            logAction('sign_in', this.state.input_userName)
 
                             if(this.state.input_email && this.state.input_email !== '') {
                                 var body = JSON.stringify({

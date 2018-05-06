@@ -85,7 +85,7 @@ export default class Chat extends React.Component {
 
     populateChatContainer() {
         return (
-            <Container>
+            <Container style={{height: '100vh'}}>
                 <Grid style={{marginBottom: 15}}>
                     <Grid.Row style={{paddingLeft: 30}}>
                         <Header>
@@ -156,11 +156,13 @@ export default class Chat extends React.Component {
                         )
                     }
                 </Grid>
-                <Input fluid style={{marginLeft: 10}} 
-                icon="angle left" 
-                onChange={this.updateUserChatInput} 
-                onKeyPress={this.submitUserChatInput}
-                value={this.state.input_userChatInput}/>
+                <Container style={{height: '100vh', marginBottom: 0}}>
+                    <Input fluid style={{marginLeft: 10}} 
+                    icon="angle left" 
+                    onChange={this.updateUserChatInput} 
+                    onKeyPress={this.submitUserChatInput}
+                    value={this.state.input_userChatInput}/>
+                </Container>
             </Container>
         )
     }
@@ -172,18 +174,11 @@ export default class Chat extends React.Component {
 
     render() {
         return (
-            <Grid style={{backgroundColor:'#001f3f', height: '100vh'}}>
-                <Grid.Column width={3} style={{marginLeft: 0,  backgroundColor: 'white',}}>
-                    <Container style={{paddingLeft: 10,  height: '100%'}}>
-                        <Goals user={this.state.user} goals={this.state.goals} />
-                    </Container>
-                </Grid.Column>
-                <Grid.Column width={12}>
-                    <Container fluid style={{backgroundColor: 'white', paddingRight: 10, paddingBottom: 10}}>
-                        {this.populateChatContainer()}
-                    </Container>
-                </Grid.Column>
-            </Grid>
+            <Container fluid style={{backgroundColor:'#001f3f', height: '100vh'}}>
+                <Container style={{backgroundColor: 'white', paddingRight: 10, paddingBottom: 10, height: '100vh'}}>
+                    {this.populateChatContainer()}
+                </Container>
+            </Container>
 
         )
     }

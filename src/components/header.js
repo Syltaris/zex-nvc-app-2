@@ -6,7 +6,9 @@ import {
     Input,
     Image,
     Button,
-    Icon
+    Icon,
+    Label,
+    Grid
 } from 'semantic-ui-react';
 
 export default class Header extends React.Component {
@@ -23,27 +25,33 @@ export default class Header extends React.Component {
 
     render() {
         return(
-            <Menu  pointing secondary >
+            <Menu secondary>
                 <Container>
-                    <Menu.Item as={NavLink} exact to="/" >
+                    <Menu.Item as={NavLink} exact to="/">
                         <Image src="logo2.png" height="30" />
                     </Menu.Item>
-                    <Menu.Item >
-                        <Input iconPosition="left" icon="search" />
-                        <NavLink exact to="/chat">
-                            <Button  icon>
-                                <Icon  name="talk"/>
-                            </Button>
-                        </NavLink>
+                    <Menu.Item>
+                    <Input iconPosition="left" icon="search" />
                     </Menu.Item>
-                    {
-                        this.state.user && 
-                        <Menu.Item position="right">
-                            {this.state.user && this.state.user.name}
-                            <Image spaced="left" avatar src={this.state.user && this.state.user.avatarUri} />
+                    <Menu.Item as={NavLink} exact to="/chat">
+                        <Icon name="talk"/>
+                        Get Advice
+                    </Menu.Item>
+                    <Menu.Item as={NavLink} exact to="/goals">
+                        <Icon name="star"/>
+                        Goals
+                    </Menu.Item>
+                    <Menu.Menu position='right'>
+                        <Menu.Item as={NavLink} exact to="/profile">
+                        {
+                            this.state.user && 
+                            <NavLink exact to="/profile">
+                                {this.state.user && this.state.user.name}
+                                <Image spaced="left" avatar src={this.state.user && this.state.user.avatarUri} />
+                            </NavLink>
+                        }
                         </Menu.Item>
-                    }
-
+                    </Menu.Menu>
                 </Container>
             </Menu>
         );

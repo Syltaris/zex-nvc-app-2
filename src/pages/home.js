@@ -101,49 +101,52 @@ export default class Home extends React.Component {
 
     handleOpen(info) {this.setState({infoToOpen: info, showModal: true})}
     handleClose() {this.setState({showModal: false})}
+        
 
     render() {
         var x = this.state.infoToOpen;
 
         return (
-            <Grid style={{backgroundColor:'#001f3f', height: '100%', minHeight: '94vh'}}>
-                <Container style={{backgroundColor:'#001f3f', height: '100%'}}>
-                    <Modal
-                    closeOnDimmerClick={true}
-                    closeOnRootNodeClick={true}
-                    closeOnEscape
-                    open={this.state.showModal}
-                    onClose={this.handleClose}
-                    style={{marginTop: '50px', marginLeft: '20%'}}>
-                        <Header>{x && x.title}</Header>
-                        <Modal.Content>
-                            {x && x.content}
-                        </Modal.Content>
-                        <Modal.Actions>
-                            Was this useful to you?
-                            <Button
-                            secondary
-                            onClick={() => {
-                                this.handleClose();
-                                logAction('button_alreadyKnow_nah_'+x.title, this.state.user.name);
-                            }}>
-                                Nah
-                            </Button>
-                            <Button
-                            primary
-                            onClick={() => {
-                                this.handleClose();
-                                logAction('button_alreadyKnow_yes_'+x.title, this.state.user.name);
-                            }}>
-                                Yes
-                            </Button>
-                        </Modal.Actions>
-                    </Modal>
-                    <Container fluid style={{backgroundColor: 'white', marginTop: 10,paddingRight: 10, paddingBottom: 10}}>
-                        {this.populateInfoContainer()}
+            <React.Fragment>
+                 <Modal
+                closeOnDimmerClick={true}
+                closeOnRootNodeClick={true}
+                closeOnEscape
+                open={this.state.showModal}
+                onClose={this.handleClose}
+                style={{marginTop: '5%', marginLeft: '20%', maxWidth: '70vw'}}> 
+                    <Header>{x && x.title}</Header>
+                    <Modal.Content>
+                        {x && x.content}
+                    </Modal.Content>
+                    <Modal.Actions>
+                        Was this useful to you?
+                        <Button
+                        secondary
+                        onClick={() => {
+                            this.handleClose();
+                            logAction('button_alreadyKnow_nah_'+x.title, this.state.user.name);
+                        }}>
+                            Nah
+                        </Button>
+                        <Button
+                        primary
+                        onClick={() => {
+                            this.handleClose();
+                            logAction('button_alreadyKnow_yes_'+x.title, this.state.user.name);
+                        }}>
+                            Yes
+                        </Button>
+                    </Modal.Actions>
+                </Modal>
+                <Grid style={{backgroundColor:'#001f3f', height: '100%', minHeight: '94vh'}}>
+                    <Container style={{backgroundColor:'#001f3f', height: '100%'}}>
+                        <Container fluid style={{backgroundColor: 'white', marginTop: 10,paddingRight: 10, paddingBottom: 10}}>
+                            {this.populateInfoContainer()}
+                        </Container>
                     </Container>
-                </Container>
-            </Grid>
+                </Grid>
+            </React.Fragment>
 
         )
     }

@@ -26,3 +26,22 @@ export function logAction(actionName, userId) {
     });
     strapiCall('qvlogs', body, 'POST', () => {});
 }
+
+export function strapiBlob(hash, successCallback) {
+    Promise.resolve(localStorage.getItem('accessToken'))
+    .then(jwt =>
+        fetch(SERVER_URL+hash, {
+            method: 'GET',
+            credentials: 'same-origin', // include, same-origin, *omit
+            headers: {
+            'Accept': 'application/pdf',
+            'Content-Type': 'application/pdf',
+            //'Authorization': `Bearer `+ jwt
+            },
+            mode: 'no-cors', // no-cors, cors, *same-origin
+        })
+        .then(resp => resp.blob())
+        .then(respData => successCallback(respData))
+        .catch(err => console.log(err))
+    )
+}

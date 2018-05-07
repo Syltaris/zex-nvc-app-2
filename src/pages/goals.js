@@ -30,6 +30,10 @@ export default class Goals extends React.Component {
         this.updateGoalField = this.updateGoalField.bind(this);
     }
 
+    componentWillMount() {
+        logAction('visited_goalsPage', this.state.user.name);
+    }
+
     componentWillReceiveProps(nextProps) {
         this.setState({
             user: nextProps.user,

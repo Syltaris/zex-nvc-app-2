@@ -11,6 +11,8 @@ import {
     Grid,
 } from 'semantic-ui-react';
 
+import {logAction} from '../helpers/helpers';
+
 export default class Header extends React.Component {
     constructor(props) {
         super(props);

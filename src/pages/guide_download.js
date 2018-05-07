@@ -4,11 +4,12 @@ import {
     Grid,
     Form,
     Button,
-    Message
+    Message,
+    Icon
 } from 'semantic-ui-react';
 
 /* Helpers */
-import { strapiCall, logAction } from '../helpers/helpers';
+import { strapiCall, logAction, strapiBlob } from '../helpers/helpers';
 
 export default class DownloadPage extends React.Component {
     constructor(props) {
@@ -33,6 +34,7 @@ export default class DownloadPage extends React.Component {
     componentWillMount() {
         //track visits
         logAction('visitor');
+        logAction('visited_downloadPage', this.state.user.name);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -86,7 +88,7 @@ export default class DownloadPage extends React.Component {
                                 email: this.state.input_email,
                                 avatarUri: "https://source.unsplash.com/random/20x20"
                             })
-                            logAction('sign_in', this.state.input_userName)
+                            logAction('sign_in_toDownload', this.state.input_userName)
 
                             if(this.state.input_email && this.state.input_email !== '') {
                                 var body = JSON.stringify({
@@ -108,8 +110,18 @@ export default class DownloadPage extends React.Component {
     showDownload() {
         return (
             <Container style={{backgroundColor: '#001f3f', height: '100%'}}>
-                <Container style={{backgroundColor: 'white', padding: 10}}>
-                    Yay
+                <Container style={{backgroundColor: 'white', padding: 10, justifyContent: 'center'}}>
+                    <Button style={{align: 'center', alignItem: 'center', justifyContent: 'center'}}
+                    icon onClick={() => {
+                        var link = document.createElement("a");
+                        link.name = 'gylt-free-guide';
+                        link.href = "http://52.77.251.137:1337/uploads/fcba41a62a9542cfaeee24094ceac525.pdf";
+                        logAction('downloadGuide_clicked');
+                        link.click();
+                    }}>
+                        <Icon name="download"/>
+                        Download Free Guide from GYLT
+                    </Button>
                 </Container>
             </Container>
         )

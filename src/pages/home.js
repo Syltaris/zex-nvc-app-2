@@ -33,6 +33,10 @@ export default class Home extends React.Component {
         this.handleOpen = this.handleOpen.bind(this);
     }
 
+    componentWillMount() {
+        logAction('visited_homePage', this.state.user.name);
+    }
+
     componentWillReceiveProps(nextProps) {
         this.setState({
             goals: nextProps.goals,

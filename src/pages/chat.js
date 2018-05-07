@@ -36,6 +36,10 @@ export default class Chat extends React.Component {
         this.handleOpen = this.handleOpen.bind(this);
     }
 
+    componentWillMount() {
+        logAction('visited_chatPage', this.state.user.name);
+    }
+
     componentWillReceiveProps(nextProps) {
         this.setState({
             chats: nextProps.chats,

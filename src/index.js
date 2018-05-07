@@ -17,6 +17,7 @@ import Home from './pages/home';
 import ChatPage from './pages/chat';
 import GoalsPage from './pages/goals';
 import ProfilePage from './pages/profile';
+import DownloadPage from './pages/guide_download';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -77,6 +78,13 @@ export default class App extends React.Component {
                         <Route path="/profile" render={() => {
                             if(this.state.user) {
                                 return <ProfilePage user={ this.state.user} updateGoals={this.updateGoals} goals={this.state.goals} chats={this.state.chats}/>
+                            } else {
+                                return <Login updateUser={this.updateUser} user={this.state.user}/>;
+                            }
+                        }}/>
+                        <Route path="/download" render={() => {
+                            if(this.state.user) {
+                                return <DownloadPage updateUser={this.updateUser} user={ this.state.user} />
                             } else {
                                 return <Login updateUser={this.updateUser} user={this.state.user}/>;
                             }

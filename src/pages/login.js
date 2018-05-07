@@ -81,13 +81,12 @@ export default class Login extends React.Component {
                         <Button onClick={() => {
                             var error = this.state.input_userName.length <= 0;
 
-                            this.setState({
-                                error: error,
-                            });
+                            this.setState({error: error});
 
                             if(!error) {
                                 this.props.updateUser( {
                                     name: this.state.input_userName,
+                                    email: this.state.input_email,
                                     avatarUri: "https://source.unsplash.com/random/20x20"
                                 })
                                 logAction('sign_in', this.state.input_userName)

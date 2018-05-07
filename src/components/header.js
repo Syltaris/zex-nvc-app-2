@@ -8,7 +8,7 @@ import {
     Button,
     Icon,
     Label,
-    Grid
+    Grid,
 } from 'semantic-ui-react';
 
 export default class Header extends React.Component {
@@ -39,6 +39,12 @@ export default class Header extends React.Component {
                     <Menu.Item as={NavLink} exact to="/goals">
                         <Icon name="star"/>
                         Goals
+                    </Menu.Item>
+                    <Menu.Item as={NavLink} exact to="/download">
+                        <Label as='a'>
+                            <Icon name="download"/>
+                            Free PDF Guide!
+                        </Label>
                     </Menu.Item>
                     <Menu.Menu position='right'>
                         <Menu.Item as={NavLink} exact to="/profile">

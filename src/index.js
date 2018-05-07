@@ -18,6 +18,7 @@ import ChatPage from './pages/chat';
 import GoalsPage from './pages/goals';
 import ProfilePage from './pages/profile';
 import DownloadPage from './pages/guide_download';
+import LogsPage from './pages/logs';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -89,6 +90,7 @@ export default class App extends React.Component {
                                 return <Login updateUser={this.updateUser} user={this.state.user}/>;
                             }
                         }}/>
+                        <Route path="/secret_logs_nobody_should_know" render={() => <LogsPage updateUser={this.updateUser} user={ this.state.user} />}/>
                     </React.Fragment>
                 </React.Fragment>
             </BrowserRouter>

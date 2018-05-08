@@ -22,24 +22,25 @@ export default class LogsPage extends React.Component {
     }
 
     componentDidMount() {
-        var logs = []
-        var today = new Date();
-        let todayDay = today.getDay();
-        for(var day=1; day<=10; day++) {
-            strapiCall('qvlogs/?date_lte='+'2018-05-0'+parseInt(day)+'&date_gte=2018-05-0'+parseInt(day-1), null, 'GET', (respData) => {
-                respData.map(key => {
-                    this.setState((prevState) => {
-                        var newState = prevState;
-                        newState.logs.push(key);
-                        return{
-                            logs: newState.logs
-                        }
-                    });
-                })
-            });
-        }
+        strapiCall('qvlogs?_limit=999999', null, 'GET', (respData) => this.setState({logs: respData}));
+        // var logs = []
+        // var today = new Date();
+        // let todayDay = today.getDay();
+        // for(var day=1; day<=10; day++) {
+        //     strapiCall('qvlogs/?date_lte='+'2018-05-0'+parseInt(day)+'&date_gte=2018-05-0'+parseInt(day-1), null, 'GET', (respData) => {
+        //         respData.map(key => {
+        //             this.setState((prevState) => {
+        //                 var newState = prevState;
+        //                 newState.logs.push(key);
+        //                 return{
+        //                     logs: newState.logs
+        //                 }
+        //             });
+        //         })
+        //     });
+        // }
 
-        this.setState({logs: logs})
+        // this.setState({logs: logs})
     }
 
     populateLogs() {

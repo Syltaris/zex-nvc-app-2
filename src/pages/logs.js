@@ -22,7 +22,19 @@ export default class LogsPage extends React.Component {
     }
 
     componentDidMount() {
-        strapiCall('qvlogs?_limit=999999', null, 'GET', (respData) => this.setState({logs: respData}));
+        strapiCall('qvlogs?_limit=999999&date_lt=2018-05-06', null, 'GET', (respData) => this.setState({
+            logs: respData
+        }));
+
+        strapiCall('qvlogs?_limit=999999&date_gt=2018-05-08', null, 'GET', (respData) => {
+            this.setState((prevState) => {
+                var newLogs = prevState.logs;
+                respData.map(x => newLogs.push(x));
+                return {
+                    logs: newLogs
+                }
+            })
+        });
         // var logs = []
         // var today = new Date();
         // let todayDay = today.getDay();
@@ -55,17 +67,38 @@ export default class LogsPage extends React.Component {
             interactionTypes[key] = interactionTypes[key] + 1;   
         });
 
+        var interactionTypes2 = {};
+        this.state.logs && this.state.logs.map(log => {
+            var key = log.date;
+            interactionTypes2[key] = log;
+        })
+
+        var interactionTypes3 = {};
+        this.state.logs && this.state.logs.map(log => {
+            var key = log.userId;
+            interactionTypes3[key] = [];
+        })
+        this.state.logs && this.state.logs.map(log => {
+            var key = log.userId;
+            interactionTypes3[key].push(log);
+        })
+
         return(
             <Container fluid style={{backgroundColor: 'white'}}>
                 Logs: {this.state.logs && this.state.logs.length}
+                    <Grid>
                     {
                         Object.keys(interactionTypes).map(key => 
-                            <Grid.Row columns={6}>
-                                <Grid.Column width={1}>
-                                    {key}:
+                            <Grid.Row columns={16}>
+                                <Grid.Column width={8}>
+                                    <Container>
+                                        {key}:
+                                    </Container>
                                 </Grid.Column>
-                                <Grid.Column width={1}>
-                                    {interactionTypes[key]}
+                                <Grid.Column width={8}>
+                                    <Container>
+                                        {interactionTypes[key]}
+                                    </Container>
                                 </Grid.Column>
                             </Grid.Row>
                         )
@@ -77,6 +110,53 @@ export default class LogsPage extends React.Component {
                         //     );
                         // })
                     }
+                    {
+                        Object.keys(interactionTypes3).map((user, index)=> 
+                            <Grid.Row columns={16} >
+                                <Grid.Column width={3}>
+                                    <Container>
+                                        {index}:{user}
+                                    </Container>
+                                </Grid.Column>
+                                <Grid.Column width={13}>
+                                    <Grid>
+                                        {interactionTypes3[user].map(x => 
+                                            <Grid.Row columns={13}>
+                                                <Grid.Column width={5}>
+                                                    {x.date}
+                                                </Grid.Column>
+                                                <Grid.Column width={5}>
+                                                    {x.interactionType}
+                                                </Grid.Column>
+                                            </Grid.Row>
+                                        )}
+                                    </Grid>
+                                </Grid.Column>
+                            </Grid.Row>
+                        )
+                    }
+                    {
+                        Object.keys(interactionTypes2).map(date => 
+                            <Grid.Row columns={16} >
+                                <Grid.Column width={3}>
+                                    <Container>
+                                        {date}
+                                    </Container>
+                                </Grid.Column>
+                                <Grid.Column width={3}>
+                                    <Container>
+                                        {interactionTypes2[date].userId}
+                                    </Container>
+                                </Grid.Column>
+                                <Grid.Column width={10}>
+                                    <Container>
+                                        {interactionTypes2[date].interactionType}
+                                    </Container>
+                                </Grid.Column>
+                            </Grid.Row>
+                        )
+                    }
+                    </Grid>
             </Container>
         );
     }

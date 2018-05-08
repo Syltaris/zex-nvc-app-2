@@ -115,7 +115,7 @@ export default class DownloadPage extends React.Component {
                     icon onClick={() => {
                         var link = document.createElement("a");
                         link.name = 'gylt-free-guide';
-                        link.href = "http://52.77.251.137:1337/uploads/fcba41a62a9542cfaeee24094ceac525.pdf";
+                        link.href = "http://52.77.251.137:1337/uploads/59d6b81e089647379d71991bc452641a.pdf"
                         logAction('downloadGuide_clicked');
                         link.click();
                     }}>

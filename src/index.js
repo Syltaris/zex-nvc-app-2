@@ -64,7 +64,11 @@ export default class App extends React.Component {
                         }}/>
                         <Route path="/chat" render={() => {
                             if(this.state.user) {
-                                return <ChatPage user={ this.state.user} updateGoals={this.updateGoals} goals={this.state.goals} chats={this.state.chats}/>
+                                return <ChatPage 
+                                user={ this.state.user} 
+                                updateGoals={this.updateGoals} 
+                                goals={this.state.goals} 
+                                chats={this.state.chats}/>
                             } else {
                                 return <Login updateUser={this.updateUser} user={this.state.user}/>;
                             }

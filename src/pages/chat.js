@@ -23,17 +23,35 @@ export default class Chat extends React.Component {
             goals : props.goals,
             chats: [],
             fetchedChats: props.chats,
+            fetchedDemoChats: props.chats.filter(x => x.isDemo),
             input_userChatInput: '',
             buttonPress: false,
+            
+            demoCarryOn: true,
+            demoChatToPushIndex: 0,
+            demoChats: [{
+                isUser: false,
+                message: "Hello! Sure thing what do you need exactly?",
+                isActionable: false
+            },
+            {
+                isUser: false,
+                message: "Me? I'm a real person, really.",
+                isActionable: false
+            },
+            {
+                isUser: false,
+                message: "I love being human.",
+                isActionable: false
+            }
+                
+            ]
         };
 
         this.populateChatContainer = this.populateChatContainer.bind(this);
 
         this.updateUserChatInput = this.updateUserChatInput.bind(this);
         this.submitUserChatInput = this.submitUserChatInput.bind(this);
-
-        this.handleClose = this.handleClose.bind(this);
-        this.handleOpen = this.handleOpen.bind(this);
     }
 
     componentWillMount() {
@@ -42,7 +60,8 @@ export default class Chat extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            chats: nextProps.chats,
+            fetchedChats: nextProps.chats,
+            demoChats: nextProps.chats.filter(x => x.isDemo),
             goals: nextProps.goals,
             user: nextProps.user
         })
@@ -51,7 +70,7 @@ export default class Chat extends React.Component {
     componentDidMount() {
         setInterval(
             () => {
-                if(this.state.fetchedChats.length > this.state.chats.length) {
+                if(this.state.demoCarryOn && this.state.fetchedChats.length > this.state.chats.length) {
                     var newArr = this.state.chats;
                     newArr.push(this.state.fetchedChats[this.state.chats.length]);
                     this.setState((prevState) => {
@@ -66,7 +85,7 @@ export default class Chat extends React.Component {
         , 2000)
     }
 
-    updateUserChatInput(e) {this.setState({input_userChatInput: e.target.value})}
+    updateUserChatInput(e) {this.setState({input_userChatInput: e.target.value, demoCarryOn: false})}
     submitUserChatInput(e) {
         if(e.key === "Enter") {
             this.setState( (prevState) => {
@@ -77,6 +96,23 @@ export default class Chat extends React.Component {
                     isUser: true,
                     message: messageToPush
                 });
+
+                //demo actions, REMOVE IN ACTUAL ONE?
+                if(this.state.fetchedDemoChats.length > this.state.demoChatToPushIndex) {
+                    setTimeout(
+                        () => {
+                            var newArr = this.state.chats;
+                            newArr.push(this.state.fetchedDemoChats[this.state.demoChatToPushIndex]);
+                            this.setState((prevState) => {
+                                return {
+                                    chats: newArr,
+                                    demoChatToPushIndex: prevState.demoChatToPushIndex+1
+                                }
+                            });
+                        }
+                    , 2000+Math.floor(Math.random() * 1500)); //extra illusion
+                }
+
                 logAction('chat_inputEntered', this.state.user.name);
 
                 return {
@@ -94,11 +130,6 @@ export default class Chat extends React.Component {
             </Container>
         )
     }
-
-    updateGoalField(e) {this.setState({input_goalField: e.target.value})}
-
-    handleOpen(info) {this.setState({infoToOpen: info, showModal: true})}
-    handleClose() {this.setState({showModal: false})}
 
     render() {
         return (

@@ -52,10 +52,10 @@ export default class Header extends React.Component {
                         <Menu.Item as={NavLink} exact to="/profile">
                         {
                             this.state.user && 
-                            <NavLink exact to="/profile">
+                            <div>
                                 {this.state.user && this.state.user.name}
                                 <Image spaced="left" avatar src={this.state.user && this.state.user.avatarUri} />
-                            </NavLink>
+                            </div>
                         }
                         </Menu.Item>
                     </Menu.Menu>

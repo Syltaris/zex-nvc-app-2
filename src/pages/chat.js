@@ -72,7 +72,7 @@ export default class Chat extends React.Component {
             () => {
                 if(this.state.demoCarryOn && this.state.fetchedChats.length > this.state.chats.length) {
                     var newArr = this.state.chats;
-                    newArr.push(this.state.fetchedChats[this.state.chats.length]);
+                    newArr.push(this.state.fetchedChats.filter(x => !x.isDemo)[this.state.chats.length]);
                     this.setState((prevState) => {
                         return {
                             chats: newArr

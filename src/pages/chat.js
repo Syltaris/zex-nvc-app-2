@@ -51,6 +51,8 @@ export default class Chat extends React.Component {
 
         this.populateChatContainer = this.populateChatContainer.bind(this);
 
+        this.triggerNextDemoChat = this.triggerNextDemoChat.bind(this);
+
         this.updateUserChatInput = this.updateUserChatInput.bind(this);
         this.submitUserChatInput = this.submitUserChatInput.bind(this);
     }
@@ -98,21 +100,7 @@ export default class Chat extends React.Component {
                     message: messageToPush
                 });
 
-                //demo actions, REMOVE IN ACTUAL ONE?
-                if(this.state.fetchedDemoChats.length > this.state.demoChatToPushIndex) {
-                    setTimeout(
-                        () => {
-                            var newArr = this.state.chats;
-                            newArr.push(this.state.fetchedDemoChats[this.state.demoChatToPushIndex]);
-                            this.setState((prevState) => {
-                                return {
-                                    chats: newArr,
-                                    demoChatToPushIndex: prevState.demoChatToPushIndex+1
-                                }
-                            });
-                        }
-                    , 2000+Math.floor(Math.random() * 1500)); //extra illusion
-                }
+                this.triggerNextDemoChat();
 
                 logAction('chat_inputEntered', this.state.user.name);
 
@@ -121,6 +109,31 @@ export default class Chat extends React.Component {
                     input_userChatInput: ''
                 }
             })
+        }
+    }
+
+    triggerNextDemoChat() {
+        //demo actions, REMOVE IN ACTUAL ONE?
+        if(this.state.fetchedDemoChats.length > this.state.demoChatToPushIndex) {
+            setTimeout(
+                () => {
+                    //dangerous hack!
+                    if(this.state.fetchedDemoChats[this.state.demoChatToPushIndex].isChainMessage) {
+                        this.triggerNextDemoChat();
+                    }
+                    var newArr = this.state.chats;
+                    newArr.push(this.state.fetchedDemoChats[this.state.demoChatToPushIndex]);
+                    this.setState((prevState) => {
+                        return {
+                            chats: newArr,
+                            demoChatToPushIndex: prevState.demoChatToPushIndex+1
+                        }
+                    });
+              
+                }
+            , 2000+Math.floor(Math.random() * 1500)); //extra illusion
+             
+       
         }
     }
 
@@ -171,7 +184,13 @@ export default class Chat extends React.Component {
                 </Card.Content>
             </Card>
         } else if (c.isInfolink) {
-
+            return <Container fluid  >
+                <Container style={{border: '1px solid black', padding: 5, borderRadius: 5}}>
+                    {c.isUser ? null: <Image avatar spaced="right" src="https://source.unsplash.com/random/21x21" />}
+                    {c.message}
+                    {c.isUser ? <Image avatar spaced="left "src="https://source.unsplash.com/random/20x20" /> : null}
+                </Container>
+            </Container>
         } else if (c.isOptions) {
             return <Card.Group itemsPerRow={4}>
             <Card>
@@ -185,7 +204,7 @@ export default class Chat extends React.Component {
                 <strong>97%</strong> Suitability
                 </Card.Meta>
                 <Card.Description>
-                Steve wants to add you to the group <strong>best friends</strong>
+                Bonus+Savings Account
                 </Card.Description>
             </Card.Content>
             <Card.Content extra>
@@ -232,7 +251,7 @@ export default class Chat extends React.Component {
                 <strong>86%</strong> Suitability
                 </Card.Meta>
                 <Card.Description>
-                Molly wants to add you to the group <strong>musicians</strong>
+                POSB Everyday Savings Account
                 </Card.Description>
             </Card.Content>
             <Card.Content extra>
@@ -279,7 +298,7 @@ export default class Chat extends React.Component {
                 <strong>67%</strong> Suitability
                 </Card.Meta>
                 <Card.Description>
-                Jenny requested permission to view your contact details
+                InterestPlus Savings Account
                 </Card.Description>
             </Card.Content>
             <Card.Content extra>

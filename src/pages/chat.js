@@ -70,7 +70,7 @@ export default class Chat extends React.Component {
     componentDidMount() {
         setInterval(
             () => {
-                if(this.state.demoCarryOn && this.state.fetchedChats.length > this.state.chats.length) {
+                if(this.state.demoCarryOn && this.state.fetchedChats.filter(x => !x.isDemo).length > this.state.chats.length) {
                     var newArr = this.state.chats;
                     newArr.push(this.state.fetchedChats.filter(x => !x.isDemo)[this.state.chats.length]);
                     this.setState((prevState) => {
